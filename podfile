@@ -5,7 +5,7 @@ target 'googleimageapi' do
 
 pod 'AFNetworking', '~> 2.5'
 pod 'MBProgressHUD', '~> 0.9'
-
+pod 'SDWebImage', '~> 3.7'
 end
 
 target 'googleimageapiTests' do
