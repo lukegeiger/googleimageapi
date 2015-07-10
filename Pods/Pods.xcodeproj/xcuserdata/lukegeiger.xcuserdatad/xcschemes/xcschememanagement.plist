@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-googleimageapi-LGSemiModalNavController-LGSemiModalNavController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-googleimageapi-LGSemiModalNavController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-googleimageapi-MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>076614B1C7249D158D0D1ADB</key>
+		<key>1DB61628E6D2B45BB95FE699</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2B1EBDF07F6A7AB787855667</key>
+		<key>1FAB3C79E74CB0B0671BFCBF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D8CDFCD0BBF94511DDFFE90</key>
+		<key>347C1808822A2B0DB6940E6A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D44547732757192EDC620E49</key>
+		<key>7832D01C9001ECF15FBDF9D1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A46DEC74A8569F9608D9E5C6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DF7467E2FAF10A224F284DF2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

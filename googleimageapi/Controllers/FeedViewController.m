@@ -31,9 +31,14 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 - (void)loadView {
     [super loadView];
+    
+    self.photos = [NSMutableArray new];
     [self makeInterface];
     
-    [self fetchPhotosWithParams:nil];
+    NSDictionary *p = @{@"q":@"fuzzy monkey",
+                        @"v":@"1.0"};
+    
+    [self fetchPhotosWithParams:p];
 }
 
 #pragma mark - Appearance
@@ -43,6 +48,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Images";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButtonWasPressed)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(historyButtonWasPressed)];
     
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -56,8 +62,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
 #pragma mark - Flow Layout Override
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    //    GImage *image = [_photos objectAtIndex:indexPath.row];
-    return CGSizeZero;
+    GImage *image = [_photos objectAtIndex:indexPath.row];
+    return image.thumbSize;
 }
 
 #pragma mark - Collection View Delegate
@@ -70,11 +76,17 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    GImage *image = [_photos objectAtIndex:indexPath.row];
+
+    [cell.imageView sd_setImageWithURL:image.url
+                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    
     return cell;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 0;
+    return self.photos.count;
 }
 
 - (NSInteger)numberOfSections{
@@ -95,11 +107,29 @@ static NSString*cellIdentifier = @"cellIdentifier";
         NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
         
         NSDictionary *cursor = [responseData objectForKey:@"cursor"];
+        NSString *moreResultsString = [cursor objectForKey:@"moreResultsUrl"];
+        
         NSDictionary *pageResults = [responseData objectForKey:@"results"];
 
         NSLog(@"cursor %@",cursor);
         NSLog(@"page results %@",pageResults);
+        
+        for (NSDictionary *dict in pageResults) {
+            GImage *gimage = [GImage gImageFromDict:dict];
+            [self.photos addObject:gimage];
+        }
+        
+        [self.collectionView reloadData];
 
+        if (moreResultsString) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                NSDictionary *p = @{@"q":@"fuzzy monkey",
+                                    @"v":@"1.0"};
+                
+//                [self fetchPhotosWithParams:p];
+            });
+        }
         
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -108,14 +138,19 @@ static NSString*cellIdentifier = @"cellIdentifier";
     }];
 }
 
+
 -(NSString*)rootAPIString{
-    return @"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=fuzzy%20monkey";
+    return @"https://ajax.googleapis.com/ajax/services/search/images";
 }
 
 
 #pragma mark - Actions
 
 -(void)searchButtonWasPressed{
+    
+}
+
+-(void)historyButtonWasPressed{
     
 }
 
