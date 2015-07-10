@@ -131,6 +131,7 @@ static NSString *cellIdentifier = @"CellIdentifier";
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+    
         Search *search = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
         
         [self.managedObjectContext deleteObject:search];

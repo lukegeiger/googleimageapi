@@ -37,7 +37,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     self.photos = [NSMutableArray new];
     [self makeInterface];
-
 }
 
 #pragma mark - Appearance
@@ -50,6 +49,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(historyButtonWasPressed)];
     
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+    [layout setMinimumInteritemSpacing:10];
+    [layout setMinimumLineSpacing:10];
     [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -80,7 +81,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    GImage *image = [_photos objectAtIndex:indexPath.row];
+    GImage *image = [self.photos objectAtIndex:indexPath.row];
 
     [cell.imageView sd_setImageWithURL:image.url
                       placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -103,34 +104,44 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     FeedViewController* __weak weakSelf = self;
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    if (!self.photos.count) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
     
     [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
         
         NSDictionary *fullResponse = (NSDictionary*)responseObject;
-        NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
-        
-        NSDictionary *cursor = [responseData objectForKey:@"cursor"];
-        NSString *moreResultsString = [cursor objectForKey:@"moreResultsUrl"];
-        
-        NSDictionary *pageResults = [responseData objectForKey:@"results"];
-
-        NSLog(@"cursor %@",cursor);
-        NSLog(@"page results %@",pageResults);
-        
-        for (NSDictionary *dict in pageResults) {
-            GImage *gimage = [GImage gImageFromDict:dict];
-            [self.photos addObject:gimage];
-        }
-        
-        [self.collectionView reloadData];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        
-        if (moreResultsString) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                [self fetchPhotosWithParams:p];
-            });
+        if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
+            NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
+            
+            NSDictionary *cursor = [responseData objectForKey:@"cursor"];
+            NSDictionary *pages = [cursor objectForKey:@"pages"];
+            
+            NSDictionary *pageResults = [responseData objectForKey:@"results"];
+            
+            NSLog(@"cursor %@",cursor);
+            NSLog(@"page results %@",pageResults);
+            
+            for (NSDictionary *dict in pageResults) {
+                GImage *gimage = [GImage gImageFromDict:dict];
+                [self.photos addObject:gimage];
+            }
+            
+            [self.collectionView reloadData];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            
+            if (pages) {
+                for (NSDictionary *dict in pages) {
+                    NSNumber *startNum = [dict objectForKey:@"start"];
+                    NSLog(@"%@",startNum);
+//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                        [self fetchPhotosWithParams:[self paramDictForSearchTerm:[params objectForKey:@"q"] start:startNum]];
+//                    });
+                }
+                
+            }
+   
         }
         
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -146,9 +157,17 @@ static NSString*cellIdentifier = @"cellIdentifier";
 }
 
 
--(NSDictionary*)paramDictForSearchTerm:(NSString*)searchTerm{
+-(NSDictionary*)paramDictForSearchTerm:(NSString*)searchTerm start:(NSNumber*)start{
+    
+    if (!start) {
+        start = @0;
+    }
+    
     NSDictionary *params = @{@"q":searchTerm,
-                             @"v":@"1.0"};
+                             @"v":@"1.0",
+                             @"safe":@"active",
+                             @"start":start
+                             };
     return params;
 }
 
@@ -170,13 +189,13 @@ static NSString*cellIdentifier = @"cellIdentifier";
         
         UITextField *textField = alertController.textFields.firstObject;
         
-        Search *search = [NSEntityDescription insertNewObjectForEntityForName:@"Search" inManagedObjectContext:self.managedObjectContext];
-        search.query = textField.text;
-        search.lastSearchDate = [NSDate date];
-        
+        Search *search = [Search searchForQuery:textField.text inContext:self.managedObjectContext];
         [self.managedObjectContext save:nil];
         
-        [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query]];
+        [self.photos removeAllObjects];
+        [self.collectionView reloadData];
+        
+        [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil]];
         
     }];
     [alertController addAction:search];
@@ -208,9 +227,22 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 -(void)historyViewController:(HistoryViewController *)histVC didRedoSearch:(Search *)search{
     [self.photos removeAllObjects];
+    [self.collectionView reloadData];
+    
     search.lastSearchDate = [NSDate date];
+    
     [self.managedObjectContext save:nil];
-    [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query]];
+    [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil]];
+}
+
+#pragma mark Scroll View Delegate
+
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    if (bottomEdge >= scrollView.contentSize.height) {
+        NSLog(@"End");
+    }
 }
 
 @end

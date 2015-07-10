@@ -16,4 +16,6 @@
 @property (nonatomic, retain) NSDate * lastSearchDate;
 @property (nonatomic, retain) NSNumber * count;
 
++(Search*)searchForQuery:(NSString*)query inContext:(NSManagedObjectContext*)context;
+
 @end
