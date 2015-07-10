@@ -30,12 +30,15 @@ static NSString*cellIdentifier = @"cellIdentifier";
 - (void)loadView {
     [super loadView];
     [self makeInterface];
+    
+    [self fetchPhotosWithParams:nil];
 }
 
 #pragma mark - Appearance
 
 -(void)makeInterface{
     
+    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"Images";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButtonWasPressed)];
     
@@ -86,8 +89,15 @@ static NSString*cellIdentifier = @"cellIdentifier";
     [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
         
-//        NSDictionary *responseDict = (NSDictionary*)responseObject;
-//        NSDictionary *featuredDict = [responseDict objectForKey:@"response"];
+        NSDictionary *fullResponse = (NSDictionary*)responseObject;
+        NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
+        
+        NSDictionary *cursor = [responseData objectForKey:@"cursor"];
+        NSDictionary *pageResults = [responseData objectForKey:@"results"];
+
+        NSLog(@"cursor %@",cursor);
+        NSLog(@"page results %@",pageResults);
+
         
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
