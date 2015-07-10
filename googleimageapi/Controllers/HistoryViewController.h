@@ -9,6 +9,16 @@
 #import "CDViewController.h"
 #import "CDTableViewController.h"
 
+@protocol HistoryViewControllerDelegate;
+
+
 @interface HistoryViewController : CDTableViewController
 
+@property (nonatomic,unsafe_unretained) NSObject<HistoryViewControllerDelegate>* delegate;
+
+@end
+
+@protocol HistoryViewControllerDelegate <NSObject>
+@optional
+-(void)historyViewController:(HistoryViewController*)histVC didRedoSearch:(Search*)search;
 @end

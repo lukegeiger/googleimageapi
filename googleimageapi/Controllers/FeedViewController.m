@@ -8,6 +8,7 @@
 
 //Models
 #import "GImage.h"
+#import "Search.h"
 //Views
 #import "ImageCollectionViewCell.h"
 #import "MBProgressHUD.h"
@@ -20,7 +21,7 @@
 //Helpers
 #import <SDWebImage/UIImageView+WebCache.h>
 
-@interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate,HistoryViewControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
 @end
@@ -53,10 +54,14 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(historyButtonWasPressed)];
     
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+    [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    
+    
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
     self.collectionView.delegate = self;
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.dataSource = self;
+    self.collectionView.alwaysBounceVertical = YES;
     [self.collectionView registerClass:[ImageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     [self.view addSubview:self.collectionView];
     
@@ -147,14 +152,41 @@ static NSString*cellIdentifier = @"cellIdentifier";
 }
 
 
+
 #pragma mark - Actions
 
 -(void)searchButtonWasPressed{
     
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Google Image Search"
+                                                                             message:@"What would you like to search for?"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+    }];
+    
+    UIAlertAction* search = [UIAlertAction actionWithTitle:@"Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        
+        UITextField *textField = alertController.textFields.firstObject;
+        
+        Search *search = [NSEntityDescription insertNewObjectForEntityForName:@"Search" inManagedObjectContext:self.managedObjectContext];
+        search.query = textField.text;
+        search.date = [NSDate date];
+        
+        [self.managedObjectContext save:nil];
+        
+    }];
+    [alertController addAction:search];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
+    [alertController addAction:cancel];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)historyButtonWasPressed{
     HistoryViewController *historyVC = [[HistoryViewController alloc]initWithManagedObjectContext:self.managedObjectContext];
+    historyVC.delegate = self;
     
     //This is a cococa pod that I created myself!
     LGSemiModalNavViewController *semiModal = [[LGSemiModalNavViewController alloc]initWithRootViewController:historyVC];
@@ -168,6 +200,13 @@ static NSString*cellIdentifier = @"cellIdentifier";
     semiModal.scaleTransform = CGAffineTransformMakeScale(.94, .94);
     
     [self presentViewController:semiModal animated:YES completion:nil];
+}
+
+
+#pragma mark - History View Controller Delegate
+
+-(void)historyViewController:(HistoryViewController *)histVC didRedoSearch:(Search *)search{
+    
 }
 
 @end

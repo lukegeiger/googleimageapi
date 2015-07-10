@@ -210,11 +210,8 @@
 		DFD4F62D1B504B8200D37B9C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				DFD4F6921B5063A400D37B9C /* App */,
 				DFD4F6851B504EF300D37B9C /* Abstract */,
-				DFD4F6341B504C1800D37B9C /* FeedViewController.h */,
-				DFD4F6351B504C1800D37B9C /* FeedViewController.m */,
-				DFD4F68C1B50607500D37B9C /* HistoryViewController.h */,
-				DFD4F68D1B50607500D37B9C /* HistoryViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -251,6 +248,17 @@
 				DFD4F6901B5060FE00D37B9C /* CDTableViewController.m */,
 			);
 			name = Abstract;
+			sourceTree = "<group>";
+		};
+		DFD4F6921B5063A400D37B9C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F6341B504C1800D37B9C /* FeedViewController.h */,
+				DFD4F6351B504C1800D37B9C /* FeedViewController.m */,
+				DFD4F68C1B50607500D37B9C /* HistoryViewController.h */,
+				DFD4F68D1B50607500D37B9C /* HistoryViewController.m */,
+			);
+			name = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

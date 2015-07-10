@@ -10,7 +10,6 @@
 
 @interface CDViewController : UIViewController
 
-
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 -(id)initWithManagedObjectContext:(NSManagedObjectContext*)managedObjectContext;

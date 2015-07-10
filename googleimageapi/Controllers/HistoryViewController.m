@@ -51,9 +51,12 @@ static NSString *cellIdentifier = @"CellIdentifier";
     [super loadView];
     
     self.navigationItem.title = @"Search History";
+    self.tableView.tableFooterView = [UIView new];
+    
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonWasPressed)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(clearSearchHistoryWasPressed)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(clearSearchHistoryWasPressed)];
 
 }
 
@@ -95,6 +98,10 @@ static NSString *cellIdentifier = @"CellIdentifier";
     
     UIAlertAction *redo = [UIAlertAction actionWithTitle:@"Redo Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
+        if ([self.delegate respondsToSelector:@selector(historyViewController:didRedoSearch:)]) {
+            [self.delegate historyViewController:self didRedoSearch:search];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
         
     }];
     
@@ -172,7 +179,6 @@ static NSString *cellIdentifier = @"CellIdentifier";
     [self.tableView endUpdates];
 }
 
-
 #pragma mark - Actions
 
 -(void)cancelButtonWasPressed{
@@ -188,11 +194,13 @@ static NSString *cellIdentifier = @"CellIdentifier";
     
     UIAlertAction *clear = [UIAlertAction actionWithTitle:@"Yes!" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
-//        [self.managedObjectContext deleteObject:search];
-//        NSError *error = nil;
-//        if (![self.managedObjectContext save:&error]) {
-//            NSLog(@"Error");
-//        }
+        for (Search *search in self.fetchedResultsController.fetchedObjects) {
+            [self.managedObjectContext deleteObject:search];
+            NSError *error = nil;
+            if (![self.managedObjectContext save:&error]) {
+                NSLog(@"Error");
+            }
+        }
         
     }];
     
