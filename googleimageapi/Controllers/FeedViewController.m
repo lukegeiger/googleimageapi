@@ -37,11 +37,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     self.photos = [NSMutableArray new];
     [self makeInterface];
-    
-    NSDictionary *p = @{@"q":@"fuzzy monkey",
-                        @"v":@"1.0"};
-    
-    [self fetchPhotosWithParams:p];
+
 }
 
 #pragma mark - Appearance
@@ -55,7 +51,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    
     
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
     self.collectionView.delegate = self;
@@ -108,6 +103,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     FeedViewController* __weak weakSelf = self;
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
         
@@ -128,13 +125,10 @@ static NSString*cellIdentifier = @"cellIdentifier";
         }
         
         [self.collectionView reloadData];
-
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
         if (moreResultsString) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                NSDictionary *p = @{@"q":@"fuzzy monkey",
-                                    @"v":@"1.0"};
-                
 //                [self fetchPhotosWithParams:p];
             });
         }
@@ -152,6 +146,11 @@ static NSString*cellIdentifier = @"cellIdentifier";
 }
 
 
+-(NSDictionary*)paramDictForSearchTerm:(NSString*)searchTerm{
+    NSDictionary *params = @{@"q":searchTerm,
+                             @"v":@"1.0"};
+    return params;
+}
 
 #pragma mark - Actions
 
@@ -160,7 +159,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Google Image Search"
                                                                              message:@"What would you like to search for?"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    
     
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
     }];
@@ -171,9 +169,11 @@ static NSString*cellIdentifier = @"cellIdentifier";
         
         Search *search = [NSEntityDescription insertNewObjectForEntityForName:@"Search" inManagedObjectContext:self.managedObjectContext];
         search.query = textField.text;
-        search.date = [NSDate date];
+        search.lastSearchDate = [NSDate date];
         
         [self.managedObjectContext save:nil];
+        
+        [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query]];
         
     }];
     [alertController addAction:search];
@@ -188,11 +188,9 @@ static NSString*cellIdentifier = @"cellIdentifier";
     HistoryViewController *historyVC = [[HistoryViewController alloc]initWithManagedObjectContext:self.managedObjectContext];
     historyVC.delegate = self;
     
-    //This is a cococa pod that I created myself!
+    //This is a cococa pod that I created myself :D
     LGSemiModalNavViewController *semiModal = [[LGSemiModalNavViewController alloc]initWithRootViewController:historyVC];
     semiModal.view.frame = CGRectMake(0, 0, self.view.frame.size.width, 400);
-    
-    //Selected customization properties, see more in the header of the LGSemiModalNavViewController
     semiModal.backgroundShadeColor = [UIColor blackColor];
     semiModal.animationSpeed = 0.35f;
     semiModal.tapDismissEnabled = YES;
@@ -206,7 +204,10 @@ static NSString*cellIdentifier = @"cellIdentifier";
 #pragma mark - History View Controller Delegate
 
 -(void)historyViewController:(HistoryViewController *)histVC didRedoSearch:(Search *)search{
-    
+    [self.photos removeAllObjects];
+    search.lastSearchDate = [NSDate date];
+    [self.managedObjectContext save:nil];
+    [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query]];
 }
 
 @end

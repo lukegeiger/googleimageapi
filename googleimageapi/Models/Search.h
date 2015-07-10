@@ -13,7 +13,7 @@
 @interface Search : NSManagedObject
 
 @property (nonatomic, retain) NSString * query;
-@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSDate * lastSearchDate;
 @property (nonatomic, retain) NSNumber * count;
 
 @end

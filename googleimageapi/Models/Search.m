@@ -12,7 +12,7 @@
 @implementation Search
 
 @dynamic query;
-@dynamic date;
+@dynamic lastSearchDate;
 @dynamic count;
 
 @end
