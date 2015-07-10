@@ -15,10 +15,12 @@
 #import "FeedViewController.h"
 //Networking
 #import "AFNetworking.h"
+//Helpers
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *photos;
+@property (nonatomic, strong) NSMutableArray *photos;
 @end
 
 @implementation FeedViewController

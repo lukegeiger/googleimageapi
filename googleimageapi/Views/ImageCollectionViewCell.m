@@ -8,6 +8,24 @@
 
 #import "ImageCollectionViewCell.h"
 
+
 @implementation ImageCollectionViewCell
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        self.imageView = [[UIImageView alloc]initWithFrame:self.bounds];
+        [self.contentView addSubview:self.imageView];
+        
+    }
+    return self;
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    
+}
 
 @end
