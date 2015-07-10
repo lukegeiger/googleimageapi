@@ -49,7 +49,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks target:self action:@selector(historyButtonWasPressed)];
     
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
-    [layout setMinimumInteritemSpacing:10];
+    [layout setMinimumInteritemSpacing:0];
     [layout setMinimumLineSpacing:10];
     [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     
@@ -60,15 +60,20 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.collectionView.alwaysBounceVertical = YES;
     [self.collectionView registerClass:[ImageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     [self.view addSubview:self.collectionView];
-    
+
 }
 
 #pragma mark - Flow Layout Override
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    GImage *image = [_photos objectAtIndex:indexPath.row];
-    return image.thumbSize;
+    
+    GImage *currentImage = [_photos objectAtIndex:indexPath.row];
+
+    CGSize size = CGSizeMake(MIN(collectionView.frame.size.width/3, currentImage.thumbSize.width), currentImage.thumbSize.height);
+    
+    return size;
 }
+
 
 #pragma mark - Collection View Delegate
 
@@ -83,7 +88,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     GImage *image = [self.photos objectAtIndex:indexPath.row];
 
-    [cell.imageView sd_setImageWithURL:image.thumbURL
+    [cell.imageView sd_setImageWithURL:image.url
                       placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
     return cell;

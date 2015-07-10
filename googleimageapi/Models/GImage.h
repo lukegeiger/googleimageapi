@@ -14,10 +14,11 @@
 @property (nonatomic, readonly) NSString *imageTitle;
 @property (nonatomic, readonly) NSString *content;
 @property (nonatomic, readonly) NSString *imageId;
-@property (nonatomic, readonly) CGSize thumbSize;
 @property (nonatomic, readonly) CGSize size;
 @property (nonatomic, readonly) NSURL* url;
 @property (nonatomic, readonly) NSURL* thumbURL;
+
+@property (nonatomic, assign) CGSize thumbSize;
 
 +(GImage*)gImageFromDict:(NSDictionary*)dict;
 

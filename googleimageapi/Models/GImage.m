@@ -10,7 +10,6 @@
 
 @interface GImage()
 @property (nonatomic, strong) NSString *content;
-@property (nonatomic, assign) CGSize thumbSize;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) NSURL* url;
 @property (nonatomic, strong) NSURL* thumbURL;
