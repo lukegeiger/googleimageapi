@@ -14,7 +14,6 @@
 		DF43FB2B1B504A4900D42110 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF43FB291B504A4900D42110 /* LaunchScreen.xib */; };
 		DF43FB371B504A4900D42110 /* googleimageapiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB361B504A4900D42110 /* googleimageapiTests.m */; };
 		DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F62F1B504BBA00D37B9C /* GImage.m */; };
-		DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */; };
 		DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6351B504C1800D37B9C /* FeedViewController.m */; };
 		DFD4F66E1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F66C1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld */; };
 		DFD4F6701B504C5D00D37B9C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F66F1B504C5D00D37B9C /* CoreGraphics.framework */; };
@@ -26,6 +25,7 @@
 		DFD4F6811B504D9F00D37B9C /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6801B504D9F00D37B9C /* UIColor+AppColors.m */; };
 		DFD4F6841B504DB200D37B9C /* UIFont+AppFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6831B504DB200D37B9C /* UIFont+AppFonts.m */; };
 		DFD4F6881B504F0A00D37B9C /* CDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6871B504F0A00D37B9C /* CDViewController.m */; };
+		DFD4F68B1B50530800D37B9C /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F68A1B50530800D37B9C /* ImageCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +53,6 @@
 		DF43FB361B504A4900D42110 /* googleimageapiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = googleimageapiTests.m; sourceTree = "<group>"; };
 		DFD4F62E1B504BBA00D37B9C /* GImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GImage.h; path = Models/GImage.h; sourceTree = "<group>"; };
 		DFD4F62F1B504BBA00D37B9C /* GImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GImage.m; path = Models/GImage.m; sourceTree = "<group>"; };
-		DFD4F6311B504C0200D37B9C /* ImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCollectionViewCell.h; path = Views/ImageCollectionViewCell.h; sourceTree = "<group>"; };
-		DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionViewCell.m; path = Views/ImageCollectionViewCell.m; sourceTree = "<group>"; };
 		DFD4F6341B504C1800D37B9C /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewController.h; path = Controllers/FeedViewController.h; sourceTree = "<group>"; };
 		DFD4F6351B504C1800D37B9C /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedViewController.m; path = Controllers/FeedViewController.m; sourceTree = "<group>"; };
 		DFD4F66D1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GoogleImageSearchModel.xcdatamodel; sourceTree = "<group>"; };
@@ -72,6 +70,8 @@
 		DFD4F6831B504DB200D37B9C /* UIFont+AppFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+AppFonts.m"; path = "Helpers/UIFont+AppFonts.m"; sourceTree = "<group>"; };
 		DFD4F6861B504F0A00D37B9C /* CDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDViewController.h; path = Controllers/Abstract/CDViewController.h; sourceTree = "<group>"; };
 		DFD4F6871B504F0A00D37B9C /* CDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDViewController.m; path = Controllers/Abstract/CDViewController.m; sourceTree = "<group>"; };
+		DFD4F6891B50530800D37B9C /* ImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCollectionViewCell.h; path = Views/ImageCollectionViewCell.h; sourceTree = "<group>"; };
+		DFD4F68A1B50530800D37B9C /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionViewCell.m; path = Views/ImageCollectionViewCell.m; sourceTree = "<group>"; };
 		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -195,8 +195,8 @@
 		DFD4F62C1B504B7E00D37B9C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DFD4F6311B504C0200D37B9C /* ImageCollectionViewCell.h */,
-				DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */,
+				DFD4F6891B50530800D37B9C /* ImageCollectionViewCell.h */,
+				DFD4F68A1B50530800D37B9C /* ImageCollectionViewCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -382,10 +382,10 @@
 				DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */,
 				DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */,
 				DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */,
-				DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */,
 				DF43FB1D1B504A4900D42110 /* main.m in Sources */,
 				DFD4F6791B504D0D00D37B9C /* Search.m in Sources */,
 				DFD4F6881B504F0A00D37B9C /* CDViewController.m in Sources */,
+				DFD4F68B1B50530800D37B9C /* ImageCollectionViewCell.m in Sources */,
 				DFD4F67E1B504D8500D37B9C /* UIView+AppViews.m in Sources */,
 				DFD4F6841B504DB200D37B9C /* UIFont+AppFonts.m in Sources */,
 			);
