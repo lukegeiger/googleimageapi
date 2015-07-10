@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76155AF8C60957B65098A4DC /* libPods-googleimageapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */; };
 		DF43FB1D1B504A4900D42110 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB1C1B504A4900D42110 /* main.m */; };
 		DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB1F1B504A4900D42110 /* AppDelegate.m */; };
 		DF43FB231B504A4900D42110 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB221B504A4900D42110 /* ViewController.m */; };
@@ -26,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		34889C3B1383E431F233B13D /* Pods-googleimageapi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-googleimageapi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-googleimageapi/Pods-googleimageapi.debug.xcconfig"; sourceTree = "<group>"; };
+		B4F23AAF5086EA5030601C04 /* Pods-googleimageapi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-googleimageapi.release.xcconfig"; path = "Pods/Target Support Files/Pods-googleimageapi/Pods-googleimageapi.release.xcconfig"; sourceTree = "<group>"; };
 		DF43FB171B504A4900D42110 /* googleimageapi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = googleimageapi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF43FB1B1B504A4900D42110 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF43FB1C1B504A4900D42110 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -38,6 +41,7 @@
 		DF43FB301B504A4900D42110 /* googleimageapiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = googleimageapiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF43FB351B504A4900D42110 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF43FB361B504A4900D42110 /* googleimageapiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = googleimageapiTests.m; sourceTree = "<group>"; };
+		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76155AF8C60957B65098A4DC /* libPods-googleimageapi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,12 +63,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C97F903CAB0BD1B00D19527 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				34889C3B1383E431F233B13D /* Pods-googleimageapi.debug.xcconfig */,
+				B4F23AAF5086EA5030601C04 /* Pods-googleimageapi.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		1DFE773280ED5EDBFE1CBD23 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DF43FB0E1B504A4900D42110 = {
 			isa = PBXGroup;
 			children = (
 				DF43FB191B504A4900D42110 /* googleimageapi */,
 				DF43FB331B504A4900D42110 /* googleimageapiTests */,
 				DF43FB181B504A4900D42110 /* Products */,
+				0C97F903CAB0BD1B00D19527 /* Pods */,
+				1DFE773280ED5EDBFE1CBD23 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,9 +147,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF43FB3A1B504A4900D42110 /* Build configuration list for PBXNativeTarget "googleimageapi" */;
 			buildPhases = (
+				DA4C86318A768CEEA088EB33 /* Check Pods Manifest.lock */,
 				DF43FB131B504A4900D42110 /* Sources */,
 				DF43FB141B504A4900D42110 /* Frameworks */,
 				DF43FB151B504A4900D42110 /* Resources */,
+				94D064F7D9C89B8C1D411EBE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,6 +235,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		94D064F7D9C89B8C1D411EBE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-googleimageapi/Pods-googleimageapi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DA4C86318A768CEEA088EB33 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DF43FB131B504A4900D42110 /* Sources */ = {
@@ -333,6 +392,7 @@
 		};
 		DF43FB3B1B504A4900D42110 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34889C3B1383E431F233B13D /* Pods-googleimageapi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = googleimageapi/Info.plist;
@@ -343,6 +403,7 @@
 		};
 		DF43FB3C1B504A4900D42110 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4F23AAF5086EA5030601C04 /* Pods-googleimageapi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = googleimageapi/Info.plist;
@@ -404,6 +465,7 @@
 				DF43FB3C1B504A4900D42110 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DF43FB3D1B504A4900D42110 /* Build configuration list for PBXNativeTarget "googleimageapiTests" */ = {
 			isa = XCConfigurationList;
@@ -412,6 +474,7 @@
 				DF43FB3F1B504A4900D42110 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
