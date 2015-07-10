@@ -83,7 +83,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     GImage *image = [self.photos objectAtIndex:indexPath.row];
 
-    [cell.imageView sd_setImageWithURL:image.url
+    [cell.imageView sd_setImageWithURL:image.thumbURL
                       placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     
     return cell;
@@ -99,7 +99,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 #pragma mark - GoogleImageAPI
 
--(void)fetchPhotosWithParams:(NSDictionary*)params{
+-(void)fetchPhotosWithParams:(NSDictionary*)params shouldPage:(BOOL)shouldPage {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     FeedViewController* __weak weakSelf = self;
@@ -121,7 +121,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
             NSDictionary *pageResults = [responseData objectForKey:@"results"];
             
             NSLog(@"cursor %@",cursor);
-            NSLog(@"page results %@",pageResults);
             
             for (NSDictionary *dict in pageResults) {
                 GImage *gimage = [GImage gImageFromDict:dict];
@@ -131,17 +130,17 @@ static NSString*cellIdentifier = @"cellIdentifier";
             [self.collectionView reloadData];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             
-            if (pages) {
+            if (pages && shouldPage) {
                 for (NSDictionary *dict in pages) {
                     NSNumber *startNum = [dict objectForKey:@"start"];
-                    NSLog(@"%@",startNum);
-//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                        [self fetchPhotosWithParams:[self paramDictForSearchTerm:[params objectForKey:@"q"] start:startNum]];
-//                    });
+                    if (startNum.intValue > 0) {
+                        NSLog(@"%@",startNum);
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self fetchPhotosWithParams:[self paramDictForSearchTerm:[params objectForKey:@"q"] start:startNum] shouldPage:NO];
+                        });
+                    }
                 }
-                
             }
-   
         }
         
     }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -195,7 +194,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
         [self.photos removeAllObjects];
         [self.collectionView reloadData];
         
-        [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil]];
+        [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil] shouldPage:YES];
         
     }];
     [alertController addAction:search];
@@ -232,11 +231,10 @@ static NSString*cellIdentifier = @"cellIdentifier";
     search.lastSearchDate = [NSDate date];
     
     [self.managedObjectContext save:nil];
-    [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil]];
+    [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil] shouldPage:YES];
 }
 
 #pragma mark Scroll View Delegate
-
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;

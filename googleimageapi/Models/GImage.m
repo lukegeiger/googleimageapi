@@ -13,7 +13,9 @@
 @property (nonatomic, assign) CGSize thumbSize;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, strong) NSURL* url;
+@property (nonatomic, strong) NSURL* thumbURL;
 @property (nonatomic, strong) NSString *imageTitle;
+@property (nonatomic, strong) NSString *imageId;
 @end
 
 @implementation GImage
@@ -33,9 +35,13 @@
     gimage.thumbSize = CGSizeMake(tbWidth.floatValue, tbHeight.floatValue);
     
     gimage.url = [NSURL URLWithString:[dict objectForKey:@"url"]];
+    gimage.thumbURL = [NSURL URLWithString:[dict objectForKey:@"tbUrl"]];
+
     gimage.imageTitle = [dict objectForKey:@"titleNoFormatting"];
     gimage.content = [dict objectForKey:@"content"];
     
+    gimage.imageId = [dict objectForKey:@"imageId"];
+
     return gimage;
 }
 

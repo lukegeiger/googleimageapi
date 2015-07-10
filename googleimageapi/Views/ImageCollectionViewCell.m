@@ -16,7 +16,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.imageView = [[UIImageView alloc]initWithFrame:self.bounds];
+        self.layer.borderColor = [UIColor blackColor].CGColor;
+        self.layer.borderWidth = 1.0;
+        
+        self.imageView = [UIImageView new];
         [self.contentView addSubview:self.imageView];
         
     }
@@ -25,7 +28,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    
+    self.imageView.frame = self.bounds;
 }
 
 @end
