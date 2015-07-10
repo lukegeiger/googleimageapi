@@ -16,6 +16,12 @@
 		DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F62F1B504BBA00D37B9C /* GImage.m */; };
 		DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */; };
 		DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6351B504C1800D37B9C /* FeedViewController.m */; };
+		DFD4F66E1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F66C1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld */; };
+		DFD4F6701B504C5D00D37B9C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F66F1B504C5D00D37B9C /* CoreGraphics.framework */; };
+		DFD4F6721B504C6100D37B9C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F6711B504C6100D37B9C /* CoreData.framework */; };
+		DFD4F6741B504C6500D37B9C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F6731B504C6500D37B9C /* UIKit.framework */; };
+		DFD4F6761B504C6C00D37B9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F6751B504C6C00D37B9C /* Foundation.framework */; };
+		DFD4F6791B504D0D00D37B9C /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6781B504D0D00D37B9C /* Search.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +53,13 @@
 		DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionViewCell.m; path = Views/ImageCollectionViewCell.m; sourceTree = "<group>"; };
 		DFD4F6341B504C1800D37B9C /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewController.h; path = Controllers/FeedViewController.h; sourceTree = "<group>"; };
 		DFD4F6351B504C1800D37B9C /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedViewController.m; path = Controllers/FeedViewController.m; sourceTree = "<group>"; };
+		DFD4F66D1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GoogleImageSearchModel.xcdatamodel; sourceTree = "<group>"; };
+		DFD4F66F1B504C5D00D37B9C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DFD4F6711B504C6100D37B9C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DFD4F6731B504C6500D37B9C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DFD4F6751B504C6C00D37B9C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DFD4F6771B504D0D00D37B9C /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Search.h; path = Models/Search.h; sourceTree = "<group>"; };
+		DFD4F6781B504D0D00D37B9C /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Search.m; path = Models/Search.m; sourceTree = "<group>"; };
 		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -55,6 +68,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFD4F6761B504C6C00D37B9C /* Foundation.framework in Frameworks */,
+				DFD4F6741B504C6500D37B9C /* UIKit.framework in Frameworks */,
+				DFD4F6721B504C6100D37B9C /* CoreData.framework in Frameworks */,
+				DFD4F6701B504C5D00D37B9C /* CoreGraphics.framework in Frameworks */,
 				76155AF8C60957B65098A4DC /* libPods-googleimageapi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +98,10 @@
 		1DFE773280ED5EDBFE1CBD23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DFD4F6751B504C6C00D37B9C /* Foundation.framework */,
+				DFD4F6731B504C6500D37B9C /* UIKit.framework */,
+				DFD4F6711B504C6100D37B9C /* CoreData.framework */,
+				DFD4F66F1B504C5D00D37B9C /* CoreGraphics.framework */,
 				E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */,
 			);
 			name = Frameworks;
@@ -111,6 +132,7 @@
 			children = (
 				DF43FB1E1B504A4900D42110 /* AppDelegate.h */,
 				DF43FB1F1B504A4900D42110 /* AppDelegate.m */,
+				DFD4F66C1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld */,
 				DFD4F62B1B504B7900D37B9C /* Models */,
 				DFD4F62C1B504B7E00D37B9C /* Views */,
 				DFD4F62D1B504B8200D37B9C /* Controllers */,
@@ -152,6 +174,7 @@
 			children = (
 				DFD4F62E1B504BBA00D37B9C /* GImage.h */,
 				DFD4F62F1B504BBA00D37B9C /* GImage.m */,
+				DFD4F67A1B504D1800D37B9C /* Core Data */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -172,6 +195,15 @@
 				DFD4F6351B504C1800D37B9C /* FeedViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		DFD4F67A1B504D1800D37B9C /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F6771B504D0D00D37B9C /* Search.h */,
+				DFD4F6781B504D0D00D37B9C /* Search.m */,
+			);
+			name = "Core Data";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -308,11 +340,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFD4F66E1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld in Sources */,
 				DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */,
 				DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */,
 				DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */,
 				DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */,
 				DF43FB1D1B504A4900D42110 /* main.m in Sources */,
+				DFD4F6791B504D0D00D37B9C /* Search.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,6 +547,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DFD4F66C1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DFD4F66D1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodel */,
+			);
+			currentVersion = DFD4F66D1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodel */;
+			path = GoogleImageSearchModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DF43FB0F1B504A4900D42110 /* Project object */;
 }
