@@ -10,4 +10,10 @@
 
 @implementation GImage
 
++(GImage*)gImageFromDict:(NSDictionary*)dict{
+    GImage *gimage = [GImage new];
+    
+    return gimage;
+}
+
 @end

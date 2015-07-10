@@ -10,4 +10,6 @@
 
 @interface GImage : NSObject
 
++(GImage*)gImageFromDict:(NSDictionary*)dict;
+
 @end

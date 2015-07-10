@@ -22,6 +22,9 @@
 		DFD4F6741B504C6500D37B9C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F6731B504C6500D37B9C /* UIKit.framework */; };
 		DFD4F6761B504C6C00D37B9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD4F6751B504C6C00D37B9C /* Foundation.framework */; };
 		DFD4F6791B504D0D00D37B9C /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6781B504D0D00D37B9C /* Search.m */; };
+		DFD4F67E1B504D8500D37B9C /* UIView+AppViews.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F67D1B504D8500D37B9C /* UIView+AppViews.m */; };
+		DFD4F6811B504D9F00D37B9C /* UIColor+AppColors.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6801B504D9F00D37B9C /* UIColor+AppColors.m */; };
+		DFD4F6841B504DB200D37B9C /* UIFont+AppFonts.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6831B504DB200D37B9C /* UIFont+AppFonts.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +63,12 @@
 		DFD4F6751B504C6C00D37B9C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DFD4F6771B504D0D00D37B9C /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Search.h; path = Models/Search.h; sourceTree = "<group>"; };
 		DFD4F6781B504D0D00D37B9C /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Search.m; path = Models/Search.m; sourceTree = "<group>"; };
+		DFD4F67C1B504D8500D37B9C /* UIView+AppViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+AppViews.h"; path = "Helpers/UIView+AppViews.h"; sourceTree = "<group>"; };
+		DFD4F67D1B504D8500D37B9C /* UIView+AppViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+AppViews.m"; path = "Helpers/UIView+AppViews.m"; sourceTree = "<group>"; };
+		DFD4F67F1B504D9F00D37B9C /* UIColor+AppColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+AppColors.h"; path = "Helpers/UIColor+AppColors.h"; sourceTree = "<group>"; };
+		DFD4F6801B504D9F00D37B9C /* UIColor+AppColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+AppColors.m"; path = "Helpers/UIColor+AppColors.m"; sourceTree = "<group>"; };
+		DFD4F6821B504DB200D37B9C /* UIFont+AppFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIFont+AppFonts.h"; path = "Helpers/UIFont+AppFonts.h"; sourceTree = "<group>"; };
+		DFD4F6831B504DB200D37B9C /* UIFont+AppFonts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIFont+AppFonts.m"; path = "Helpers/UIFont+AppFonts.m"; sourceTree = "<group>"; };
 		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -111,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				DF43FB191B504A4900D42110 /* googleimageapi */,
+				DFD4F67B1B504D6E00D37B9C /* Helpers */,
 				DF43FB331B504A4900D42110 /* googleimageapiTests */,
 				DF43FB181B504A4900D42110 /* Products */,
 				0C97F903CAB0BD1B00D19527 /* Pods */,
@@ -204,6 +214,20 @@
 				DFD4F6781B504D0D00D37B9C /* Search.m */,
 			);
 			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		DFD4F67B1B504D6E00D37B9C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F67C1B504D8500D37B9C /* UIView+AppViews.h */,
+				DFD4F67D1B504D8500D37B9C /* UIView+AppViews.m */,
+				DFD4F67F1B504D9F00D37B9C /* UIColor+AppColors.h */,
+				DFD4F6801B504D9F00D37B9C /* UIColor+AppColors.m */,
+				DFD4F6821B504DB200D37B9C /* UIFont+AppFonts.h */,
+				DFD4F6831B504DB200D37B9C /* UIFont+AppFonts.m */,
+			);
+			name = Helpers;
+			path = googleimageapi;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,12 +365,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFD4F66E1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld in Sources */,
+				DFD4F6811B504D9F00D37B9C /* UIColor+AppColors.m in Sources */,
 				DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */,
 				DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */,
 				DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */,
 				DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */,
 				DF43FB1D1B504A4900D42110 /* main.m in Sources */,
 				DFD4F6791B504D0D00D37B9C /* Search.m in Sources */,
+				DFD4F67E1B504D8500D37B9C /* UIView+AppViews.m in Sources */,
+				DFD4F6841B504DB200D37B9C /* UIFont+AppFonts.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
