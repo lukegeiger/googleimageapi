@@ -6,11 +6,19 @@
 //  Copyright (c) 2015 Luke J Geiger. All rights reserved.
 //
 
-#import "FeedViewController.h"
+//Models
+#import "GImage.h"
+//Views
 #import "ImageCollectionViewCell.h"
+#import "MBProgressHUD.h"
+//Controllers
+#import "FeedViewController.h"
+//Networking
+#import "AFNetworking.h"
 
 @interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray *photos;
 @end
 
 @implementation FeedViewController
@@ -24,12 +32,12 @@ static NSString*cellIdentifier = @"cellIdentifier";
     [self makeInterface];
 }
 
-
-#pragma mark - Actions
-
 #pragma mark - Appearance
 
 -(void)makeInterface{
+    
+    self.navigationItem.title = @"Images";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchButtonWasPressed)];
     
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -43,6 +51,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 #pragma mark - Flow Layout Override
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    //    GImage *image = [_photos objectAtIndex:indexPath.row];
     return CGSizeZero;
 }
 
@@ -65,6 +74,37 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 - (NSInteger)numberOfSections{
     return 1;
+}
+
+#pragma mark - GoogleImageAPI
+
+-(void)fetchPhotosWithParams:(NSDictionary*)params{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    FeedViewController* __weak weakSelf = self;
+    
+    [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+        
+//        NSDictionary *responseDict = (NSDictionary*)responseObject;
+//        NSDictionary *featuredDict = [responseDict objectForKey:@"response"];
+        
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
+        [[[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil]show];
+    }];
+}
+
+-(NSString*)rootAPIString{
+    return @"https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=fuzzy%20monkey";
+}
+
+
+#pragma mark - Actions
+
+-(void)searchButtonWasPressed{
+    
 }
 
 @end

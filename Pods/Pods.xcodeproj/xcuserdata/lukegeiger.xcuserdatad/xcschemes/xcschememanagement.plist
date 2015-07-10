@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-googleimageapi-MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-googleimageapi.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1C5B204F5F2F3BEBF1B5CC7A</key>
+		<key>04DF054239C069A1E3A18801</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8F9772C7DA203E93715EAB40</key>
+		<key>4CFAD67D6F243DD28412B5DA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7572ED5DDAAC2A4DDDD38C38</key>
 		<dict>
 			<key>primary</key>
 			<true/>
