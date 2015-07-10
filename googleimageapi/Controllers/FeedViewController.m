@@ -7,31 +7,60 @@
 //
 
 #import "FeedViewController.h"
+#import "ImageCollectionViewCell.h"
 
-@interface FeedViewController ()
-
+@interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate>
+@property (nonatomic, strong) UICollectionView *collectionView;
 @end
 
 @implementation FeedViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+static NSString*cellIdentifier = @"cellIdentifier";
+
+#pragma mark - Life Cycle
+
+- (void)loadView {
+    [super loadView];
+    [self makeInterface];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - Actions
+
+#pragma mark - Appearance
+
+-(void)makeInterface{
+    
+    UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    [self.collectionView registerClass:[ImageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
+    [self.view addSubview:self.collectionView];
+    
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Flow Layout Override
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeZero;
 }
-*/
+
+#pragma mark - Collection View Delegate
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
+#pragma mark - Collection View Data Source
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return 0;
+}
+
+- (NSInteger)numberOfSections{
+    return 1;
+}
+
 
 @end

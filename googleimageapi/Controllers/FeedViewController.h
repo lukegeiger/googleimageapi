@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CDViewController.h"
 
-@interface FeedViewController : UIViewController
+@interface FeedViewController : CDViewController
+
 
 @end

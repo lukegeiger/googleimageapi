@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "FeedViewController.h"
 
 @interface AppDelegate ()
 
@@ -14,9 +15,15 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    FeedViewController *feedVC = [[FeedViewController alloc]initWithManagedObjectContext:self.managedObjectContext];
+    UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:feedVC];
+    
+    self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    self.window.rootViewController = navVC;
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
