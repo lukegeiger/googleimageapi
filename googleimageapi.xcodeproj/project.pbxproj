@@ -27,6 +27,7 @@
 		DFD4F6881B504F0A00D37B9C /* CDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6871B504F0A00D37B9C /* CDViewController.m */; };
 		DFD4F68B1B50530800D37B9C /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F68A1B50530800D37B9C /* ImageCollectionViewCell.m */; };
 		DFD4F68E1B50607500D37B9C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F68D1B50607500D37B9C /* HistoryViewController.m */; };
+		DFD4F6911B5060FE00D37B9C /* CDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6901B5060FE00D37B9C /* CDTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		DFD4F68A1B50530800D37B9C /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionViewCell.m; path = Views/ImageCollectionViewCell.m; sourceTree = "<group>"; };
 		DFD4F68C1B50607500D37B9C /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HistoryViewController.h; path = Controllers/HistoryViewController.h; sourceTree = "<group>"; };
 		DFD4F68D1B50607500D37B9C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryViewController.m; path = Controllers/HistoryViewController.m; sourceTree = "<group>"; };
+		DFD4F68F1B5060FE00D37B9C /* CDTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDTableViewController.h; path = Controllers/Abstract/CDTableViewController.h; sourceTree = "<group>"; };
+		DFD4F6901B5060FE00D37B9C /* CDTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDTableViewController.m; path = Controllers/Abstract/CDTableViewController.m; sourceTree = "<group>"; };
 		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -244,6 +247,8 @@
 			children = (
 				DFD4F6861B504F0A00D37B9C /* CDViewController.h */,
 				DFD4F6871B504F0A00D37B9C /* CDViewController.m */,
+				DFD4F68F1B5060FE00D37B9C /* CDTableViewController.h */,
+				DFD4F6901B5060FE00D37B9C /* CDTableViewController.m */,
 			);
 			name = Abstract;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 				DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */,
 				DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */,
 				DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */,
+				DFD4F6911B5060FE00D37B9C /* CDTableViewController.m in Sources */,
 				DF43FB1D1B504A4900D42110 /* main.m in Sources */,
 				DFD4F6791B504D0D00D37B9C /* Search.m in Sources */,
 				DFD4F6881B504F0A00D37B9C /* CDViewController.m in Sources */,

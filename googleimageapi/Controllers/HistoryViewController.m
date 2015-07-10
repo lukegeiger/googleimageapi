@@ -6,32 +6,202 @@
 //  Copyright (c) 2015 Luke J Geiger. All rights reserved.
 //
 
+//Frameworks
+#include <CoreData/CoreData.h>
+//Models
+#import "Search.h"
+//View Controllers
 #import "HistoryViewController.h"
 
-@interface HistoryViewController ()
-
+@interface HistoryViewController () <NSFetchedResultsControllerDelegate>
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation HistoryViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+static NSString *cellIdentifier = @"CellIdentifier";
+
+#pragma mark - Fetched Results Controller
+
+-(NSFetchedResultsController*)fetchedResultsController
+{
+    if (!_fetchedResultsController) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Search"];
+        [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]]];
+        
+        _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+        
+        [_fetchedResultsController setDelegate:self];
+        
+        NSError *error = nil;
+        [_fetchedResultsController performFetch:&error];
+        
+        if (error) {
+            NSLog(@"Unable to perform fetch.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+        }
+        
+    }
+    return _fetchedResultsController;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Life Cycle
+
+- (void)loadView {
+    [super loadView];
+    
+    self.navigationItem.title = @"Search History";
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonWasPressed)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(clearSearchHistoryWasPressed)];
+
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Table View Data Source
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.fetchedResultsController.fetchedObjects.count;
 }
-*/
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    Search *search = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = search.query;
+    
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
+#pragma mark - Table View Delegate
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    Search *search = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:search.query
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    UIAlertAction *redo = [UIAlertAction actionWithTitle:@"Redo Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        
+        
+    }];
+    
+    [alertController addAction:redo];
+    
+    UIAlertAction *delete = [UIAlertAction actionWithTitle:@"Delete Search" style:UIAlertActionStyleDestructive handler:^(UIAlertAction*action){
+        
+        [self.managedObjectContext deleteObject:search];
+        NSError *error = nil;
+        if (![self.managedObjectContext save:&error]) {
+            NSLog(@"Error");
+        }
+        
+    }];
+    
+    [alertController addAction:delete];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
+    [alertController addAction:cancel];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+#pragma mark - Table View Delegate
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        Search *search = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
+        
+        [self.managedObjectContext deleteObject:search];
+        
+        NSError *error = nil;
+        
+        if (![self.managedObjectContext save:&error]) {
+            
+            NSLog(@"Error");
+            
+        }
+    }
+}
+
+#pragma mark - NSFetchedResultsController Delegate
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert: {
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        }
+        case NSFetchedResultsChangeDelete: {
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        }
+        case NSFetchedResultsChangeUpdate: {
+            break;
+        }
+        case NSFetchedResultsChangeMove: {
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        }
+    }
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView beginUpdates];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.tableView endUpdates];
+}
+
+
+#pragma mark - Actions
+
+-(void)cancelButtonWasPressed{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)clearSearchHistoryWasPressed{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Clear History"
+                                                                             message:@"Are you sure you want to clear your history?"
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    UIAlertAction *clear = [UIAlertAction actionWithTitle:@"Yes!" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        
+//        [self.managedObjectContext deleteObject:search];
+//        NSError *error = nil;
+//        if (![self.managedObjectContext save:&error]) {
+//            NSLog(@"Error");
+//        }
+        
+    }];
+    
+    [alertController addAction:clear];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
+    [alertController addAction:cancel];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 @end

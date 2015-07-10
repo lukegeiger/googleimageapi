@@ -7,7 +7,8 @@
 //
 
 #import "CDViewController.h"
+#import "CDTableViewController.h"
 
-@interface HistoryViewController : CDViewController
+@interface HistoryViewController : CDTableViewController
 
 @end

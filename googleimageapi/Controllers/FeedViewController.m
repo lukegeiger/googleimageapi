@@ -13,6 +13,8 @@
 #import "MBProgressHUD.h"
 //Controllers
 #import "FeedViewController.h"
+#import "HistoryViewController.h"
+#import "LGSemiModalNavViewController.h"
 //Networking
 #import "AFNetworking.h"
 //Helpers
@@ -53,6 +55,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:layout];
     self.collectionView.delegate = self;
+    self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.dataSource = self;
     [self.collectionView registerClass:[ImageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     [self.view addSubview:self.collectionView];
@@ -151,7 +154,20 @@ static NSString*cellIdentifier = @"cellIdentifier";
 }
 
 -(void)historyButtonWasPressed{
+    HistoryViewController *historyVC = [[HistoryViewController alloc]initWithManagedObjectContext:self.managedObjectContext];
     
+    //This is a cococa pod that I created myself!
+    LGSemiModalNavViewController *semiModal = [[LGSemiModalNavViewController alloc]initWithRootViewController:historyVC];
+    semiModal.view.frame = CGRectMake(0, 0, self.view.frame.size.width, 400);
+    
+    //Selected customization properties, see more in the header of the LGSemiModalNavViewController
+    semiModal.backgroundShadeColor = [UIColor blackColor];
+    semiModal.animationSpeed = 0.35f;
+    semiModal.tapDismissEnabled = YES;
+    semiModal.backgroundShadeAlpha = 0.4;
+    semiModal.scaleTransform = CGAffineTransformMakeScale(.94, .94);
+    
+    [self presentViewController:semiModal animated:YES completion:nil];
 }
 
 @end
