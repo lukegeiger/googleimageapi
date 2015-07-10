@@ -1,15 +1,13 @@
 //
-//  ViewController.h
+//  GImage.h
 //  googleimageapi
 //
 //  Created by Luke Geiger on 7/10/15.
 //  Copyright (c) 2015 Luke J Geiger. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface ViewController : UIViewController
-
+@interface GImage : NSObject
 
 @end
-

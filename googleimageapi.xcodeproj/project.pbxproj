@@ -10,10 +10,12 @@
 		76155AF8C60957B65098A4DC /* libPods-googleimageapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */; };
 		DF43FB1D1B504A4900D42110 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB1C1B504A4900D42110 /* main.m */; };
 		DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB1F1B504A4900D42110 /* AppDelegate.m */; };
-		DF43FB231B504A4900D42110 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB221B504A4900D42110 /* ViewController.m */; };
 		DF43FB281B504A4900D42110 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF43FB271B504A4900D42110 /* Images.xcassets */; };
 		DF43FB2B1B504A4900D42110 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF43FB291B504A4900D42110 /* LaunchScreen.xib */; };
 		DF43FB371B504A4900D42110 /* googleimageapiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DF43FB361B504A4900D42110 /* googleimageapiTests.m */; };
+		DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F62F1B504BBA00D37B9C /* GImage.m */; };
+		DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */; };
+		DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6351B504C1800D37B9C /* FeedViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,13 +36,17 @@
 		DF43FB1C1B504A4900D42110 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DF43FB1E1B504A4900D42110 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DF43FB1F1B504A4900D42110 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DF43FB211B504A4900D42110 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DF43FB221B504A4900D42110 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DF43FB271B504A4900D42110 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DF43FB2A1B504A4900D42110 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		DF43FB301B504A4900D42110 /* googleimageapiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = googleimageapiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF43FB351B504A4900D42110 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF43FB361B504A4900D42110 /* googleimageapiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = googleimageapiTests.m; sourceTree = "<group>"; };
+		DFD4F62E1B504BBA00D37B9C /* GImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GImage.h; path = Models/GImage.h; sourceTree = "<group>"; };
+		DFD4F62F1B504BBA00D37B9C /* GImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GImage.m; path = Models/GImage.m; sourceTree = "<group>"; };
+		DFD4F6311B504C0200D37B9C /* ImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCollectionViewCell.h; path = Views/ImageCollectionViewCell.h; sourceTree = "<group>"; };
+		DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionViewCell.m; path = Views/ImageCollectionViewCell.m; sourceTree = "<group>"; };
+		DFD4F6341B504C1800D37B9C /* FeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedViewController.h; path = Controllers/FeedViewController.h; sourceTree = "<group>"; };
+		DFD4F6351B504C1800D37B9C /* FeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedViewController.m; path = Controllers/FeedViewController.m; sourceTree = "<group>"; };
 		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -105,10 +111,9 @@
 			children = (
 				DF43FB1E1B504A4900D42110 /* AppDelegate.h */,
 				DF43FB1F1B504A4900D42110 /* AppDelegate.m */,
-				DF43FB211B504A4900D42110 /* ViewController.h */,
-				DF43FB221B504A4900D42110 /* ViewController.m */,
-				DF43FB271B504A4900D42110 /* Images.xcassets */,
-				DF43FB291B504A4900D42110 /* LaunchScreen.xib */,
+				DFD4F62B1B504B7900D37B9C /* Models */,
+				DFD4F62C1B504B7E00D37B9C /* Views */,
+				DFD4F62D1B504B8200D37B9C /* Controllers */,
 				DF43FB1A1B504A4900D42110 /* Supporting Files */,
 			);
 			path = googleimageapi;
@@ -117,6 +122,8 @@
 		DF43FB1A1B504A4900D42110 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DF43FB271B504A4900D42110 /* Images.xcassets */,
+				DF43FB291B504A4900D42110 /* LaunchScreen.xib */,
 				DF43FB1B1B504A4900D42110 /* Info.plist */,
 				DF43FB1C1B504A4900D42110 /* main.m */,
 			);
@@ -138,6 +145,33 @@
 				DF43FB351B504A4900D42110 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DFD4F62B1B504B7900D37B9C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F62E1B504BBA00D37B9C /* GImage.h */,
+				DFD4F62F1B504BBA00D37B9C /* GImage.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		DFD4F62C1B504B7E00D37B9C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F6311B504C0200D37B9C /* ImageCollectionViewCell.h */,
+				DFD4F6321B504C0200D37B9C /* ImageCollectionViewCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		DFD4F62D1B504B8200D37B9C /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F6341B504C1800D37B9C /* FeedViewController.h */,
+				DFD4F6351B504C1800D37B9C /* FeedViewController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,8 +308,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF43FB231B504A4900D42110 /* ViewController.m in Sources */,
 				DF43FB201B504A4900D42110 /* AppDelegate.m in Sources */,
+				DFD4F6361B504C1800D37B9C /* FeedViewController.m in Sources */,
+				DFD4F6301B504BBA00D37B9C /* GImage.m in Sources */,
+				DFD4F6331B504C0200D37B9C /* ImageCollectionViewCell.m in Sources */,
 				DF43FB1D1B504A4900D42110 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
