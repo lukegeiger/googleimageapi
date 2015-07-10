@@ -157,10 +157,13 @@ static NSString*cellIdentifier = @"cellIdentifier";
 -(void)searchButtonWasPressed{
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Google Image Search"
-                                                                             message:@"What would you like to search for?"
+                                                                             message:@"What would you see pictures of?"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+        textField.placeholder = @"e.g Kanye West";
+        textField.textAlignment = NSTextAlignmentCenter;
     }];
     
     UIAlertAction* search = [UIAlertAction actionWithTitle:@"Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
