@@ -54,6 +54,11 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 #pragma mark - Collection View Data Source
 
+-(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    return cell;
+}
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return 0;
 }
@@ -61,6 +66,5 @@ static NSString*cellIdentifier = @"cellIdentifier";
 - (NSInteger)numberOfSections{
     return 1;
 }
-
 
 @end
