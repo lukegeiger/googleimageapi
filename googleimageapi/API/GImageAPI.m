@@ -39,50 +39,47 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     NSDictionary *params = [self paramDictForSearchTerm:query start:[NSNumber numberWithInteger:self.currentPage]];
-    
-    //the starting page limit?!
-    if (self.currentPage <64) {
-        [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSDictionary *fullResponse = (NSDictionary*)responseObject;
+        
+        if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
             
-            NSDictionary *fullResponse = (NSDictionary*)responseObject;
+            NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
+            NSDictionary *cursor = [responseData objectForKey:@"cursor"];
+            NSDictionary *pageResults = [responseData objectForKey:@"results"];
+            NSMutableArray *parsedImages = [NSMutableArray new];
             
-            if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
-                
-                NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
-                NSDictionary *cursor = [responseData objectForKey:@"cursor"];
-                NSDictionary *pageResults = [responseData objectForKey:@"results"];
-                NSMutableArray *parsedImages = [NSMutableArray new];
-                
-                for (NSDictionary *dict in pageResults) {
-                    GImage *gimage = [GImage gImageFromDict:dict];
-                    [parsedImages addObject:gimage];
-                }
-                
-                if (shouldPage) {
-                    for (int i = 1; i< 8; i++) {
-                        self.currentPage += 4;
-                        [self fetchPhotosForQuery:self.lastQuery shouldPage:NO onCompletion:^(NSArray*gimages,NSError*error){
-                            completion (gimages,nil);
-                        }];
-                    }
-                }
-                else{
-                    completion (parsedImages,nil);
-                }
-                
+            for (NSDictionary *dict in pageResults) {
+                GImage *gimage = [GImage gImageFromDict:dict];
+                [parsedImages addObject:gimage];
             }
             
-        }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
+            if (shouldPage) {
+                for (int i = 1; i< 8; i++) {
+                    self.currentPage += 4;
+                    [self fetchPhotosForQuery:self.lastQuery shouldPage:NO onCompletion:^(NSArray*gimages,NSError*error){
+                        completion (gimages,nil);
+                    }];
+                }
+            }
+            else{
+                completion (parsedImages,nil);
+            }
+            
+        }
+        else{
+            NSError*error = [[NSError alloc]init];
             completion(nil,error);
-        }];
-    }
-    else{
-        NSError*error = [[NSError alloc]init];
+        }
+        
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
         completion(nil,error);
-    }
+    }];
 
 }
+
 
 - (void)reset{
     self.currentPage = 0;

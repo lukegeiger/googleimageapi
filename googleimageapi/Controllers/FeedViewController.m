@@ -199,7 +199,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
     [self presentViewController:semiModal animated:YES completion:nil];
 }
 
-
 #pragma mark - History View Controller Delegate
 
 -(void)historyViewController:(HistoryViewController *)histVC didRedoSearch:(Search *)search{

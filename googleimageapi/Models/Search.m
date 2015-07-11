@@ -13,7 +13,6 @@
 
 @dynamic query;
 @dynamic lastSearchDate;
-@dynamic count;
 
 +(Search*)searchForQuery:(NSString*)query inContext:(NSManagedObjectContext*)context{
     
