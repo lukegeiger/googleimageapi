@@ -16,6 +16,8 @@
 #import "FeedViewController.h"
 #import "HistoryViewController.h"
 #import "LGSemiModalNavViewController.h"
+//API
+#import "GImageAPI.h"
 //Networking
 #import "AFNetworking.h"
 //Helpers
@@ -24,6 +26,7 @@
 @interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate,HistoryViewControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
+@property (nonatomic, assign) NSInteger pagesSeen;
 @end
 
 @implementation FeedViewController
@@ -34,7 +37,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 - (void)loadView {
     [super loadView];
-    
+    self.pagesSeen = 0;
     self.photos = [NSMutableArray new];
     [self makeInterface];
 }
@@ -67,18 +70,40 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    GImage *currentImage = [_photos objectAtIndex:indexPath.row];
+    GImage *currentImage = [self.photos objectAtIndex:indexPath.row];
 
     CGSize size = CGSizeMake(MIN(collectionView.frame.size.width/3, currentImage.thumbSize.width), currentImage.thumbSize.height);
     
     return size;
 }
 
-
 #pragma mark - Collection View Delegate
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    GImage *currentImage = [self.photos objectAtIndex:indexPath.row];
+
     
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:currentImage.imageTitle
+                                                                             message:currentImage.content
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction* view = [UIAlertAction actionWithTitle:@"View" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [[UIApplication sharedApplication]openURL:currentImage.url];
+    }];
+    
+    [alertController addAction:view];
+    
+    UIAlertAction*save = [UIAlertAction actionWithTitle:@"Save" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        ImageCollectionViewCell *cell = (ImageCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
+        UIImageWriteToSavedPhotosAlbum(cell.imageView.image, nil, nil, nil);
+    }];
+    
+    [alertController addAction:save];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
+    [alertController addAction:cancel];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Collection View Data Source
@@ -102,77 +127,17 @@ static NSString*cellIdentifier = @"cellIdentifier";
     return 1;
 }
 
-#pragma mark - GoogleImageAPI
-
--(void)fetchPhotosWithParams:(NSDictionary*)params shouldPage:(BOOL)shouldPage {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+-(void)search:(Search*)search{
     
-    FeedViewController* __weak weakSelf = self;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    if (!self.photos.count) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    }
-    
-    [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
-        
-        NSDictionary *fullResponse = (NSDictionary*)responseObject;
-        if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
-            NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
-            
-            NSDictionary *cursor = [responseData objectForKey:@"cursor"];
-            NSDictionary *pages = [cursor objectForKey:@"pages"];
-            
-            NSDictionary *pageResults = [responseData objectForKey:@"results"];
-            
-            NSLog(@"cursor %@",cursor);
-            
-            for (NSDictionary *dict in pageResults) {
-                GImage *gimage = [GImage gImageFromDict:dict];
-                [self.photos addObject:gimage];
-            }
-            
-            [self.collectionView reloadData];
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            
-            if (pages && shouldPage) {
-                for (NSDictionary *dict in pages) {
-                    NSNumber *startNum = [dict objectForKey:@"start"];
-                    if (startNum.intValue > 0) {
-                        NSLog(@"%@",startNum);
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [self fetchPhotosWithParams:[self paramDictForSearchTerm:[params objectForKey:@"q"] start:startNum] shouldPage:NO];
-                        });
-                    }
-                }
-            }
+    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query onCompletion:^(NSArray*gimages,NSError*error){
+        if (!error) {
+            [self.photos addObjectsFromArray:gimages];
         }
-        
-    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        [MBProgressHUD hideAllHUDsForView:weakSelf.view animated:YES];
-        [[[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil]show];
+        [self.collectionView reloadData];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     }];
-}
-
-
--(NSString*)rootAPIString{
-    return @"https://ajax.googleapis.com/ajax/services/search/images";
-}
-
-
--(NSDictionary*)paramDictForSearchTerm:(NSString*)searchTerm start:(NSNumber*)start{
-    
-    if (!start) {
-        start = @0;
-    }
-    
-    NSDictionary *params = @{@"q":searchTerm,
-                             @"v":@"1.0",
-                             @"safe":@"active",
-                             @"start":start
-                             };
-    return params;
 }
 
 #pragma mark - Actions
@@ -199,7 +164,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
         [self.photos removeAllObjects];
         [self.collectionView reloadData];
         
-        [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil] shouldPage:YES];
+        [self search:search];
         
     }];
     [alertController addAction:search];
@@ -236,7 +201,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
     search.lastSearchDate = [NSDate date];
     
     [self.managedObjectContext save:nil];
-    [self fetchPhotosWithParams:[self paramDictForSearchTerm:search.query start:nil] shouldPage:YES];
+    
+    [self search:search];
 }
 
 #pragma mark Scroll View Delegate
@@ -244,8 +210,16 @@ static NSString*cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
     if (bottomEdge >= scrollView.contentSize.height) {
-        NSLog(@"End");
+//        [[GImageAPI sharedAPI]fetchNextPageOnCompletion:^(NSArray*gimages, NSError*error){
+//            [self.photos addObjectsFromArray:gimages];
+//            [self.collectionView reloadData];
+//        }];
     }
 }
+
+
+#pragma mark GImageDelegate
+
+
 
 @end

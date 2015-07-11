@@ -37,7 +37,7 @@
     gimage.thumbURL = [NSURL URLWithString:[dict objectForKey:@"tbUrl"]];
 
     gimage.imageTitle = [dict objectForKey:@"titleNoFormatting"];
-    gimage.content = [dict objectForKey:@"content"];
+    gimage.content = [dict objectForKey:@"contentNoFormatting"];
     
     gimage.imageId = [dict objectForKey:@"imageId"];
 

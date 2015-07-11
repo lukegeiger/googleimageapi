@@ -28,6 +28,7 @@
 		DFD4F68B1B50530800D37B9C /* ImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F68A1B50530800D37B9C /* ImageCollectionViewCell.m */; };
 		DFD4F68E1B50607500D37B9C /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F68D1B50607500D37B9C /* HistoryViewController.m */; };
 		DFD4F6911B5060FE00D37B9C /* CDTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6901B5060FE00D37B9C /* CDTableViewController.m */; };
+		DFD4F6991B509A2700D37B9C /* GImageAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4F6981B509A2700D37B9C /* GImageAPI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		DFD4F68D1B50607500D37B9C /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryViewController.m; path = Controllers/HistoryViewController.m; sourceTree = "<group>"; };
 		DFD4F68F1B5060FE00D37B9C /* CDTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDTableViewController.h; path = Controllers/Abstract/CDTableViewController.h; sourceTree = "<group>"; };
 		DFD4F6901B5060FE00D37B9C /* CDTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDTableViewController.m; path = Controllers/Abstract/CDTableViewController.m; sourceTree = "<group>"; };
+		DFD4F6971B509A2700D37B9C /* GImageAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GImageAPI.h; path = API/GImageAPI.h; sourceTree = "<group>"; };
+		DFD4F6981B509A2700D37B9C /* GImageAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GImageAPI.m; path = API/GImageAPI.m; sourceTree = "<group>"; };
 		E8F2CC6FDDB36D1115307234 /* libPods-googleimageapi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-googleimageapi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -152,6 +155,7 @@
 				DF43FB1E1B504A4900D42110 /* AppDelegate.h */,
 				DF43FB1F1B504A4900D42110 /* AppDelegate.m */,
 				DFD4F66C1B504C5100D37B9C /* GoogleImageSearchModel.xcdatamodeld */,
+				DFD4F6961B509A1300D37B9C /* API */,
 				DFD4F62B1B504B7900D37B9C /* Models */,
 				DFD4F62C1B504B7E00D37B9C /* Views */,
 				DFD4F62D1B504B8200D37B9C /* Controllers */,
@@ -259,6 +263,15 @@
 				DFD4F68D1B50607500D37B9C /* HistoryViewController.m */,
 			);
 			name = App;
+			sourceTree = "<group>";
+		};
+		DFD4F6961B509A1300D37B9C /* API */ = {
+			isa = PBXGroup;
+			children = (
+				DFD4F6971B509A2700D37B9C /* GImageAPI.h */,
+				DFD4F6981B509A2700D37B9C /* GImageAPI.m */,
+			);
+			name = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,6 +416,7 @@
 				DFD4F6911B5060FE00D37B9C /* CDTableViewController.m in Sources */,
 				DF43FB1D1B504A4900D42110 /* main.m in Sources */,
 				DFD4F6791B504D0D00D37B9C /* Search.m in Sources */,
+				DFD4F6991B509A2700D37B9C /* GImageAPI.m in Sources */,
 				DFD4F6881B504F0A00D37B9C /* CDViewController.m in Sources */,
 				DFD4F68B1B50530800D37B9C /* ImageCollectionViewCell.m in Sources */,
 				DFD4F67E1B504D8500D37B9C /* UIView+AppViews.m in Sources */,
