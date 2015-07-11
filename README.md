@@ -18,16 +18,16 @@ The purpose of this project was to use the deprecated Google Image Search API, f
 - Save search history.
 - Incremental loading when a user scrolls to the bottom of the page.
 
-# APIs
+# API
 
 I created a Singleton wrapper that fetches photos from the API, below is a sample of how it works.
 
 ```objective-c
 
-    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query shouldPage:YES onCompletion:^(NSArray*gimages,NSError*error){
+  [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query onCompletion:^(NSArray*gimages,NSError*error){
         
-    }];
-
+  }];
+    
 ```
 
 # Models
