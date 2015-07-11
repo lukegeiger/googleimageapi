@@ -206,7 +206,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
-    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query shouldPage:YES onCompletion:^(NSArray*gimages,NSError*error){
+    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query onCompletion:^(NSArray*gimages,NSError*error){
         
         if (!error) {
             [self.photos addObjectsFromArray:gimages];
