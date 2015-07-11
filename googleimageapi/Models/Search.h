@@ -13,26 +13,18 @@
 @interface Search : NSManagedObject
 
 /*
- Comment
+ The search text.
  */
 @property (nonatomic, retain) NSString * query;
 
 /*
- Comment
+ The last time this search was searched.
  */
 @property (nonatomic, retain) NSDate * lastSearchDate;
 
 /*
- Comment
- */
-@property (nonatomic, retain) NSNumber * count;
-
-
-/*
- Comment
- @param
- @return
- */
+ Returns a newley created search, or an existing search if the query paramter matches a previous query
+*/
 +(Search*)searchForQuery:(NSString*)query inContext:(NSManagedObjectContext*)context;
 
 @end

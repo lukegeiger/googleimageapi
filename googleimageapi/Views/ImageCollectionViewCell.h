@@ -11,7 +11,7 @@
 @interface ImageCollectionViewCell : UICollectionViewCell
 
 /*
- Comment
+ An ImageView that dynamically resiszes itself to however big the cell is.
  */
 @property (nonatomic, strong) UIImageView *imageView;
 

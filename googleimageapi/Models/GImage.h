@@ -12,37 +12,38 @@
 @interface GImage : NSObject
 
 /*
- Comment
+ Supplies the title of the image, which is usually the base filename (for example, monkey.png.)
 */
 @property (nonatomic, readonly) NSString *imageTitle;
 
 /*
- Comment
+ Supplies a brief snippet of information from the page associated with the image result.
  */
 @property (nonatomic, readonly) NSString *content;
 
 /*
- Comment
+ Unique ID
  */
 @property (nonatomic, readonly) NSString *imageId;
 
 /*
- Comment
+ Supplies the height and width, in pixels, of the image.
  */
 @property (nonatomic, readonly) CGSize size;
 
 /*
- Comment
+ Supplies the URL of a image.
+
  */
 @property (nonatomic, readonly) NSURL* url;
 
 /*
- Comment
+ Supplies the URL of a thumbnail image.
  */
 @property (nonatomic, readonly) NSURL* thumbURL;
 
 /*
- Comment
+ Supplies the height and width, in pixels, of the image thumbnail.
  */
 @property (nonatomic, assign) CGSize thumbSize;
 
