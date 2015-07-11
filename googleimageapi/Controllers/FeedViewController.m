@@ -26,7 +26,7 @@
 @interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate,HistoryViewControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
-@property (nonatomic, strong) Search *lastSearch;
+@property (nonatomic, weak) Search *lastSearch;
 @property (nonatomic, assign) BOOL showedErrorMessage;
 
 @end
