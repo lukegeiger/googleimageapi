@@ -197,6 +197,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.lastSearch = search;
     
     if (!self.photos.count) {
+        self.navigationItem.title = @"Loading...";
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
     
@@ -217,6 +218,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
             [self search:self.lastSearch];
         }
         
+        self.navigationItem.title = search.query;
+    
     }];
 }
 
