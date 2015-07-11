@@ -20,4 +20,5 @@
 @protocol HistoryViewControllerDelegate <NSObject>
 @optional
 -(void)historyViewController:(HistoryViewController*)histVC didRedoSearch:(Search*)search;
+-(void)historyViewControllerDidClearHistory:(HistoryViewController*)histVC;
 @end

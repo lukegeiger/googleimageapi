@@ -26,7 +26,7 @@
 @interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate,HistoryViewControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
-@property (nonatomic, weak) Search *lastSearch;
+@property (nonatomic, strong) Search *lastSearch;
 @property (nonatomic, assign) BOOL showedErrorMessage;
 
 @end
@@ -246,13 +246,20 @@ static NSString*cellIdentifier = @"cellIdentifier";
     [self search:search];
 }
 
+-(void)historyViewControllerDidClearHistory:(HistoryViewController *)histVC{
+    
+    self.navigationItem.title = @"Images";
+    [self.photos removeAllObjects];
+    [self.collectionView reloadData];
+}
+
 #pragma mark Scroll View Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
     if (bottomEdge >= scrollView.contentSize.height) {
-        if (self.lastSearch) {
+        if (self.lastSearch && !self.lastSearch.isFault) {
             [self search:self.lastSearch];            
         }
     }

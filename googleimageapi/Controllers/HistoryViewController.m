@@ -204,6 +204,10 @@ static NSString *cellIdentifier = @"CellIdentifier";
             }
         }
         
+        if ([self.delegate respondsToSelector:@selector(historyViewController:didRedoSearch:)]) {
+            [self.delegate historyViewControllerDidClearHistory:self];
+        }
+        
     }];
     
     [alertController addAction:clear];
