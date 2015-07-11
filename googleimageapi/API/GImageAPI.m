@@ -14,7 +14,6 @@
 #import "AFNetworking.h"
 
 @interface GImageAPI ()
-@property (nonatomic, strong) NSString *lastQuery;
 @property (nonatomic, assign) NSInteger currentPage;
 @end
 
@@ -33,8 +32,6 @@
 }
 
 - (void)fetchPhotosForQuery:(NSString*)query onCompletion:(void (^)(NSArray *gimages, NSError *gError))completion{
-
-    self.lastQuery = query;
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
