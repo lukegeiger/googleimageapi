@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Luke J Geiger. All rights reserved.
 //
 
+//Frameworks
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 
@@ -48,9 +49,9 @@
 @property (nonatomic, assign) CGSize thumbSize;
 
 /*
- Comment
- @param
- @return
+ Turns a Google Image JSON dictionary into a Cocoa Touch Object
+ @param dict a json dictionary
+ @return a cocoa touch representation of a google image
  */
 +(GImage*)gImageFromDict:(NSDictionary*)dict;
 

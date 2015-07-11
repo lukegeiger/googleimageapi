@@ -27,6 +27,8 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, strong) Search *lastSearch;
+@property (nonatomic, assign) BOOL showedErrorMessage;
+
 @end
 
 @implementation FeedViewController
@@ -38,6 +40,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 - (void)loadView {
     [super loadView];
     
+    self.showedErrorMessage = NO;
     self.photos = [NSMutableArray new];
     [self makeInterface];
 }
@@ -214,12 +217,17 @@ static NSString*cellIdentifier = @"cellIdentifier";
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
         //Search untill the whole screen is populated
-        if (self.collectionView.frame.size.height > self.collectionView.contentSize.height) {
+        if (!error && self.collectionView.frame.size.height > self.collectionView.contentSize.height) {
             [self search:self.lastSearch];
         }
         
         self.navigationItem.title = search.query;
     
+        if (error && error.code != -1 && self.showedErrorMessage == NO) {
+            self.showedErrorMessage = YES;
+            [[[UIAlertView alloc]initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil]show];
+        }
+        
     }];
 }
 

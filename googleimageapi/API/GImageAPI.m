@@ -59,7 +59,17 @@
             
         }
         else{
-            NSError*error = [[NSError alloc]init];
+            
+            NSDictionary *userInfo = @{
+                                       NSLocalizedDescriptionKey: NSLocalizedString(@"The API has found the most possible images.", nil),
+                                       NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The API has found the most possible images.", nil),
+                                       NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Try searching for something else", nil)
+                                       };
+            
+            NSError *error = [NSError errorWithDomain:@"GoogleImageDomain"
+                                                 code:-1
+                                             userInfo:userInfo];
+            
             completion(nil,error);
         }
         

@@ -76,7 +76,6 @@ static NSString *cellIdentifier = @"CellIdentifier";
     Search *search = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = search.query;
-    
     cell.textLabel.font = [UIFont appFontOfSize:15];
     
     return cell;
