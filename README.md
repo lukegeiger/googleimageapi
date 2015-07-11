@@ -85,6 +85,8 @@ There are two model objects in this project, the *GImage* which is a Cocoa Touch
 ```
 
 ```Search.h
+@interface Search : NSManagedObject
+
 /*
  The search text.
  */
@@ -96,12 +98,13 @@ There are two model objects in this project, the *GImage* which is a Cocoa Touch
 @property (nonatomic, retain) NSDate * lastSearchDate;
 
 /*
- Returns a newsearch, or an existing search if the query paramter matches a previous query
+ Returns a new search, or an existing search if the query paramter matches a previous query
 */
 +(Search*)searchForQuery:(NSString*)query inContext:(NSManagedObjectContext*)context;
 
-```
+@end
 
+```
 
 # CocoaPods
 
