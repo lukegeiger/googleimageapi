@@ -35,7 +35,7 @@
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    NSDictionary *params = [self paramDictForSearchTerm:query start:[NSNumber numberWithInteger:self.currentPage]];
+    NSDictionary *params = [self paramDictForSearchTerm:query];
     [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSDictionary *fullResponse = (NSDictionary*)responseObject;
@@ -82,7 +82,7 @@
 
 #pragma mark - Networking
 
--(NSDictionary*)paramDictForSearchTerm:(NSString*)searchTerm start:(NSNumber*)start{
+-(NSDictionary*)paramDictForSearchTerm:(NSString*)searchTerm{
     
     NSDictionary *params = @{@"q":searchTerm,
                              @"v":@"1.0",
