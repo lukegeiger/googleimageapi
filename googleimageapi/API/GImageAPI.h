@@ -17,12 +17,17 @@
  */
 + (GImageAPI*)sharedAPI;
 
+/*
+ Comment
+ */
 @property (nonatomic, readonly) NSString *lastQuery;
 
-- (void)beginFetchingPhotosForQuery:(NSString*)string;
-
+/*
+ Comment
+ */
 - (void)fetchPhotosForQuery:(NSString*)query shouldPage:(BOOL)shouldPage onCompletion:(void (^)(NSArray *gimages, NSError *gError))completion;
 
+- (void)reset;
 
 @end
 

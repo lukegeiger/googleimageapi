@@ -80,18 +80,12 @@
     else{
         NSError*error = [[NSError alloc]init];
         completion(nil,error);
-
     }
 
 }
 
-
-- (void)beginFetchingPhotosForQuery:(NSString*)string{
-//    [self fetchPhotosForQuery:string onCompletion:nil];
-}
-
-- (void)fetchNextPageOnCompletion:(void (^)(NSArray *gimages, NSError *gError))completion{
-
+- (void)reset{
+    self.currentPage = 0;
 }
 
 #pragma mark - Networking
@@ -108,7 +102,6 @@
 
 
 #pragma mark - GoogleImageAPI
-
 
 -(NSString*)rootAPIString{
     return @"https://ajax.googleapis.com/ajax/services/search/images";

@@ -10,6 +10,9 @@
 
 @interface ImageCollectionViewCell : UICollectionViewCell
 
+/*
+ Comment
+ */
 @property (nonatomic, strong) UIImageView *imageView;
 
 @end

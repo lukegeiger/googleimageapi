@@ -135,9 +135,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
     if (!self.photos.count) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
-    else{
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    }
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query shouldPage:YES onCompletion:^(NSArray*gimages,NSError*error){
         if (!error) {
@@ -223,10 +222,5 @@ static NSString*cellIdentifier = @"cellIdentifier";
         [self search:self.lastSearch];
     }
 }
-
-
-#pragma mark GImageDelegate
-
-
 
 @end
