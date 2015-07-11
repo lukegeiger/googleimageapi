@@ -47,6 +47,7 @@
             
             NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
             NSDictionary *cursor = [responseData objectForKey:@"cursor"];
+            NSArray *cursorPages = [cursor objectForKey:@"pages"];
             NSDictionary *pageResults = [responseData objectForKey:@"results"];
             NSMutableArray *parsedImages = [NSMutableArray new];
             
@@ -56,7 +57,7 @@
             }
             
             if (shouldPage) {
-                for (int i = 1; i< 8; i++) {
+                for (int i = 1; i< cursorPages.count; i++) {
                     self.currentPage += 4;
                     [self fetchPhotosForQuery:self.lastQuery shouldPage:NO onCompletion:^(NSArray*gimages,NSError*error){
                         completion (gimages,nil);
