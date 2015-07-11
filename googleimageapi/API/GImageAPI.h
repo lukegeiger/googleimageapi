@@ -21,9 +21,8 @@
 
 - (void)beginFetchingPhotosForQuery:(NSString*)string;
 
-- (void)fetchPhotosForQuery:(NSString*)query onCompletion:(void (^)(NSArray *gimages, NSError *gError))completion;
+- (void)fetchPhotosForQuery:(NSString*)query shouldPage:(BOOL)shouldPage onCompletion:(void (^)(NSArray *gimages, NSError *gError))completion;
 
-- (void)fetchNextPageOnCompletion:(void (^)(NSArray *gimages, NSError *gError))completion;
 
 @end
 

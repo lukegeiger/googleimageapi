@@ -27,6 +27,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, assign) NSInteger pagesSeen;
+@property (nonatomic, strong) Search *lastSearch;
 @end
 
 @implementation FeedViewController
@@ -129,14 +130,22 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 -(void)search:(Search*)search{
     
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.lastSearch = search;
     
-    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query onCompletion:^(NSArray*gimages,NSError*error){
+    if (!self.photos.count) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
+    else{
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    }
+    
+    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query shouldPage:YES onCompletion:^(NSArray*gimages,NSError*error){
         if (!error) {
             [self.photos addObjectsFromArray:gimages];
         }
         [self.collectionView reloadData];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     }];
 }
 
@@ -145,7 +154,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 -(void)searchButtonWasPressed{
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Google Image Search"
-                                                                             message:@"What would you see pictures of?"
+                                                                             message:@"What would you like to see pictures of?"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
@@ -210,10 +219,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
     if (bottomEdge >= scrollView.contentSize.height) {
-//        [[GImageAPI sharedAPI]fetchNextPageOnCompletion:^(NSArray*gimages, NSError*error){
-//            [self.photos addObjectsFromArray:gimages];
-//            [self.collectionView reloadData];
-//        }];
+        NSLog(@"Bottom");
+        [self search:self.lastSearch];
     }
 }
 

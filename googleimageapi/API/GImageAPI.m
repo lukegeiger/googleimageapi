@@ -15,8 +15,6 @@
 
 @interface GImageAPI ()
 @property (nonatomic, strong) NSString *lastQuery;
-@property (nonatomic, assign) BOOL isPaging;
-@property (nonatomic, strong) NSMutableArray *searchImages;
 @property (nonatomic, assign) NSInteger currentPage;
 @end
 
@@ -30,63 +28,66 @@
     dispatch_once(&pred, ^{
         shared = [[GImageAPI alloc] init];
         shared.currentPage = 0;
-        shared.searchImages = [NSMutableArray new];
     });
     return shared;
 }
 
-- (void)fetchPhotosForQuery:(NSString*)query onCompletion:(void (^)(NSArray *gimages, NSError *gError))completion{
+- (void)fetchPhotosForQuery:(NSString*)query shouldPage:(BOOL)shouldPage onCompletion:(void (^)(NSArray *gimages, NSError *gError))completion{
 
     self.lastQuery = query;
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     NSDictionary *params = [self paramDictForSearchTerm:query start:[NSNumber numberWithInteger:self.currentPage]];
-    NSLog(@"%@",params);
     
-    [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSDictionary *fullResponse = (NSDictionary*)responseObject;
-        
-        if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
+    //the starting page limit?!
+    if (self.currentPage <64) {
+        [manager GET:[self rootAPIString] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
-            NSDictionary *cursor = [responseData objectForKey:@"cursor"];
-            NSDictionary *pages = [cursor objectForKey:@"pages"];
-            NSDictionary *pageResults = [responseData objectForKey:@"results"];
+            NSDictionary *fullResponse = (NSDictionary*)responseObject;
             
-            for (NSDictionary *dict in pageResults) {
-                GImage *gimage = [GImage gImageFromDict:dict];
-                [self.searchImages addObject:gimage];
-            }
-            
-            if (self.isPaging == false) {
-                self.isPaging = true;
-                for (NSDictionary *dict in pages) {
-                    NSNumber *start = [dict objectForKey:@"start"];
-                    NSLog(@"start %@:",start);
-                    
-                    self.currentPage = start.integerValue;
-                    
-                    [self fetchPhotosForQuery:self.lastQuery onCompletion:^(NSArray*gimages,NSError*error){
-                        [self.searchImages addObjectsFromArray:gimages];
-                    }];
+            if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
+                
+                NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
+                NSDictionary *cursor = [responseData objectForKey:@"cursor"];
+                NSDictionary *pageResults = [responseData objectForKey:@"results"];
+                NSMutableArray *parsedImages = [NSMutableArray new];
+                
+                for (NSDictionary *dict in pageResults) {
+                    GImage *gimage = [GImage gImageFromDict:dict];
+                    [parsedImages addObject:gimage];
                 }
+                
+                if (shouldPage) {
+                    for (int i = 1; i< 8; i++) {
+                        self.currentPage += 4;
+                        [self fetchPhotosForQuery:self.lastQuery shouldPage:NO onCompletion:^(NSArray*gimages,NSError*error){
+                            completion (gimages,nil);
+                        }];
+                    }
+                }
+                else{
+                    completion (parsedImages,nil);
+                }
+                
             }
             
-            completion(self.searchImages,nil);
-
-        }
-        
-    }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        }failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            NSLog(@"Error: %@", error);
+            completion(nil,error);
+        }];
+    }
+    else{
+        NSError*error = [[NSError alloc]init];
         completion(nil,error);
-    }];
+
+    }
+
 }
 
 
 - (void)beginFetchingPhotosForQuery:(NSString*)string{
-    [self fetchPhotosForQuery:string onCompletion:nil];
+//    [self fetchPhotosForQuery:string onCompletion:nil];
 }
 
 - (void)fetchNextPageOnCompletion:(void (^)(NSArray *gimages, NSError *gError))completion{

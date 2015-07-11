@@ -11,10 +11,9 @@
 
 @protocol HistoryViewControllerDelegate;
 
-
 @interface HistoryViewController : CDTableViewController
 
-@property (nonatomic,unsafe_unretained) NSObject<HistoryViewControllerDelegate>* delegate;
+@property (nonatomic,weak) NSObject<HistoryViewControllerDelegate>* delegate;
 
 @end
 
