@@ -115,7 +115,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     GImage *image = [self.photos objectAtIndex:indexPath.row];
 
     [cell.imageView sd_setImageWithURL:image.url
-                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                      placeholderImage:nil];
     
     return cell;
 }
@@ -172,6 +172,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
         [self.photos removeAllObjects];
         [self.collectionView reloadData];
         
+        [[GImageAPI sharedAPI]reset];
         [self search:search];
         
     }];
@@ -209,6 +210,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     
     [self.managedObjectContext save:nil];
     
+    [[GImageAPI sharedAPI]reset];
     [self search:search];
 }
 

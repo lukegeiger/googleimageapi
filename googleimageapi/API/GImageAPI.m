@@ -46,8 +46,6 @@
         if ([[fullResponse objectForKey:@"responseStatus"]intValue] == 200) {
             
             NSDictionary *responseData = [fullResponse objectForKey:@"responseData"];
-            NSDictionary *cursor = [responseData objectForKey:@"cursor"];
-            NSArray *cursorPages = [cursor objectForKey:@"pages"];
             NSDictionary *pageResults = [responseData objectForKey:@"results"];
             NSMutableArray *parsedImages = [NSMutableArray new];
             
@@ -56,17 +54,8 @@
                 [parsedImages addObject:gimage];
             }
             
-            if (shouldPage) {
-                for (int i = 1; i< cursorPages.count; i++) {
-                    self.currentPage += 4;
-                    [self fetchPhotosForQuery:self.lastQuery shouldPage:NO onCompletion:^(NSArray*gimages,NSError*error){
-                        completion (gimages,nil);
-                    }];
-                }
-            }
-            else{
-                completion (parsedImages,nil);
-            }
+            self.currentPage += pageResults.count;
+            completion (parsedImages,nil);
             
         }
         else{
@@ -80,7 +69,6 @@
     }];
 
 }
-
 
 - (void)reset{
     self.currentPage = 0;
