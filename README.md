@@ -17,6 +17,43 @@ The purpose of this project was to use the deprecated Google Image Search API, f
 - 3 images in a row using a UIScrollView.
 - Save search history.
 - Incremental loading when a user scrolls to the bottom of the page.
+- A Strong UX.
+
+# Goal Implementation
+
+- For the first goal, I used a UICollectionView and overrided the Flow Layout to allow for a dynamic size for every cell, based on whatever size it needed to be. I put the restriction that no cell can ever be more than 1/3 the width of the screen.
+
+```objective-c
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    GImage *currentImage = [self.photos objectAtIndex:indexPath.row];
+
+    CGSize size = CGSizeMake(MIN(collectionView.frame.size.width/3, currentImage.thumbSize.width), currentImage.thumbSize.height);
+    
+    return size;
+}
+    
+```
+
+- For the second goal, I simply used Core Data.
+
+- For the third goal, I watched for a user to scroll to the bottom of the collection by overriding the *scrollViewDidEndDecelerating* method.
+
+```objective-c
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
+    float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    if (bottomEdge >= scrollView.contentSize.height) {
+      //If we have searched, continue finding more images.
+        if (self.lastSearch) {
+            [self search:self.lastSearch];            
+        }
+    }
+}
+    
+```
+
 
 # API
 
