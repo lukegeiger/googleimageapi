@@ -26,7 +26,6 @@
 @interface FeedViewController () <UICollectionViewDataSource,UICollectionViewDelegate,HistoryViewControllerDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *photos;
-@property (nonatomic, assign) NSInteger pagesSeen;
 @property (nonatomic, strong) Search *lastSearch;
 @end
 
@@ -38,7 +37,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 
 - (void)loadView {
     [super loadView];
-    self.pagesSeen = 0;
+    
     self.photos = [NSMutableArray new];
     [self makeInterface];
 }
@@ -64,7 +63,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
     self.collectionView.alwaysBounceVertical = YES;
     [self.collectionView registerClass:[ImageCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     [self.view addSubview:self.collectionView];
-
 }
 
 #pragma mark - Flow Layout Override
@@ -81,6 +79,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 #pragma mark - Collection View Delegate
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
     GImage *currentImage = [self.photos objectAtIndex:indexPath.row];
 
     
@@ -102,6 +101,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
     [alertController addAction:save];
     
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
+    
     [alertController addAction:cancel];
     
     [self presentViewController:alertController animated:YES completion:nil];
@@ -110,6 +110,7 @@ static NSString*cellIdentifier = @"cellIdentifier";
 #pragma mark - Collection View Data Source
 
 -(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
     ImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     GImage *image = [self.photos objectAtIndex:indexPath.row];
@@ -121,38 +122,15 @@ static NSString*cellIdentifier = @"cellIdentifier";
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    
     return self.photos.count;
 }
 
 - (NSInteger)numberOfSections{
+    
     return 1;
 }
 
--(void)search:(Search*)search{
-    
-    self.lastSearch = search;
-    
-    if (!self.photos.count) {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    }
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    
-    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query shouldPage:YES onCompletion:^(NSArray*gimages,NSError*error){
-        if (!error) {
-            [self.photos addObjectsFromArray:gimages];
-        }
-        [self.collectionView reloadData];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        
-        //Search untill the whole screen is populated
-        if (self.collectionView.frame.size.height > self.collectionView.contentSize.height) {
-            [self search:self.lastSearch];
-        }
-        
-    }];
-}
 
 #pragma mark - Actions
 
@@ -173,6 +151,8 @@ static NSString*cellIdentifier = @"cellIdentifier";
         UITextField *textField = alertController.textFields.firstObject;
         
         if (textField.text.length > 0) {
+            [self.view endEditing:YES];
+
             Search *search = [Search searchForQuery:textField.text inContext:self.managedObjectContext];
             [self.managedObjectContext save:nil];
             
@@ -181,20 +161,22 @@ static NSString*cellIdentifier = @"cellIdentifier";
             
             [[GImageAPI sharedAPI]reset];
             
-            
             [self search:search];
         }
     }];
     
     [alertController addAction:search];
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
+        [self.view endEditing:YES];
+    }];
     [alertController addAction:cancel];
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)historyButtonWasPressed{
+    
     HistoryViewController *historyVC = [[HistoryViewController alloc]initWithManagedObjectContext:self.managedObjectContext];
     historyVC.delegate = self;
     
@@ -210,9 +192,38 @@ static NSString*cellIdentifier = @"cellIdentifier";
     [self presentViewController:semiModal animated:YES completion:nil];
 }
 
+-(void)search:(Search*)search{
+    
+    self.lastSearch = search;
+    
+    if (!self.photos.count) {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    [[GImageAPI sharedAPI]fetchPhotosForQuery:search.query shouldPage:YES onCompletion:^(NSArray*gimages,NSError*error){
+        
+        if (!error) {
+            [self.photos addObjectsFromArray:gimages];
+        }
+        
+        [self.collectionView reloadData];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        //Search untill the whole screen is populated
+        if (self.collectionView.frame.size.height > self.collectionView.contentSize.height) {
+            [self search:self.lastSearch];
+        }
+        
+    }];
+}
+
 #pragma mark - History View Controller Delegate
 
 -(void)historyViewController:(HistoryViewController *)histVC didRedoSearch:(Search *)search{
+    
     [self.photos removeAllObjects];
     [self.collectionView reloadData];
     
@@ -227,9 +238,12 @@ static NSString*cellIdentifier = @"cellIdentifier";
 #pragma mark Scroll View Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
     float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
     if (bottomEdge >= scrollView.contentSize.height) {
-        [self search:self.lastSearch];
+        if (self.lastSearch) {
+            [self search:self.lastSearch];            
+        }
     }
 }
 

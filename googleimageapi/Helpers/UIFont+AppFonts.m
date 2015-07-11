@@ -14,10 +14,10 @@
     return [UIFont fontWithName:@"HelveticaNeue-Light" size:size];
 }
 + (UIFont*)appLightFontOfSize:(CGFloat)size{
-    return [UIFont fontWithName:@"HelveticaNeue-Light" size:size];
+    return [UIFont fontWithName:@"HelveticaNeue-Thin" size:size];
 }
 + (UIFont*)appBoldFontOfSize:(CGFloat)size{
-    return [UIFont fontWithName:@"HelveticaNeue-Light" size:size];
+    return [UIFont fontWithName:@"HelveticaNeue-Medium" size:size];
 }
 
 @end

@@ -12,6 +12,8 @@
 #import "Search.h"
 //View Controllers
 #import "HistoryViewController.h"
+//Helpers
+#import "UIFont+AppFonts.h"
 
 @interface HistoryViewController () <NSFetchedResultsControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -23,8 +25,8 @@ static NSString *cellIdentifier = @"CellIdentifier";
 
 #pragma mark - Fetched Results Controller
 
--(NSFetchedResultsController*)fetchedResultsController
-{
+-(NSFetchedResultsController*)fetchedResultsController{
+    
     if (!_fetchedResultsController) {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Search"];
         [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"lastSearchDate" ascending:NO]]];
@@ -48,6 +50,7 @@ static NSString *cellIdentifier = @"CellIdentifier";
 #pragma mark - Life Cycle
 
 - (void)loadView {
+    
     [super loadView];
     
     self.navigationItem.title = @"Search History";
@@ -56,31 +59,32 @@ static NSString *cellIdentifier = @"CellIdentifier";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellIdentifier];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonWasPressed)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(clearSearchHistoryWasPressed)];
-
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clearSearchHistoryWasPressed)];
 }
 
 #pragma mark - Table View Data Source
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     return self.fetchedResultsController.fetchedObjects.count;
 }
 
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     Search *search = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
     
     cell.textLabel.text = search.query;
     
+    cell.textLabel.font = [UIFont appFontOfSize:15];
+    
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    return 60;
 }
 
 #pragma mark - Table View Delegate
@@ -96,7 +100,7 @@ static NSString *cellIdentifier = @"CellIdentifier";
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
     
     
-    UIAlertAction *redo = [UIAlertAction actionWithTitle:@"Redo Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+    UIAlertAction *redo = [UIAlertAction actionWithTitle:@"Search" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
         if ([self.delegate respondsToSelector:@selector(historyViewController:didRedoSearch:)]) {
             [self.delegate historyViewController:self didRedoSearch:search];
@@ -127,8 +131,8 @@ static NSString *cellIdentifier = @"CellIdentifier";
 
 #pragma mark - Table View Delegate
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
     
@@ -191,7 +195,7 @@ static NSString *cellIdentifier = @"CellIdentifier";
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
     
     
-    UIAlertAction *clear = [UIAlertAction actionWithTitle:@"Yes!" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+    UIAlertAction *clear = [UIAlertAction actionWithTitle:@"Clear History" style:UIAlertActionStyleDestructive handler:^(UIAlertAction*action){
         
         for (Search *search in self.fetchedResultsController.fetchedObjects) {
             [self.managedObjectContext deleteObject:search];

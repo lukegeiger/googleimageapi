@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "FeedViewController.h"
+#import "UIColor+AppColors.h"
+#import "UIFont+AppFonts.h"
 
 @interface AppDelegate ()
 
@@ -15,7 +17,21 @@
 
 @implementation AppDelegate
 
+
+#pragma mark - Apperance Overrides
+
+-(void)appearance{
+    
+    NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor appDarkGreyColor], NSForegroundColorAttributeName,[UIFont appBoldFontOfSize:16], NSFontAttributeName, nil];
+    [[UINavigationBar appearance] setTitleTextAttributes: textTitleOptions];
+    NSDictionary *barFont = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor appBlueColor], NSForegroundColorAttributeName,[UIFont appBoldFontOfSize:16], NSFontAttributeName, nil];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:barFont forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance]setTintColor:[UIColor appBlueColor]];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [self appearance];
     
     FeedViewController *feedVC = [[FeedViewController alloc]initWithManagedObjectContext:self.managedObjectContext];
     UINavigationController *navVC = [[UINavigationController alloc]initWithRootViewController:feedVC];
