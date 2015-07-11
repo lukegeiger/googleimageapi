@@ -67,7 +67,6 @@
         NSLog(@"Error: %@", error);
         completion(nil,error);
     }];
-
 }
 
 - (void)reset{

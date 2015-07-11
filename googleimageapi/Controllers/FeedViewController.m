@@ -145,6 +145,12 @@ static NSString*cellIdentifier = @"cellIdentifier";
         [self.collectionView reloadData];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        //Search untill the whole screen is populated
+        if (self.collectionView.frame.size.height > self.collectionView.contentSize.height) {
+            [self search:self.lastSearch];
+        }
+        
     }];
 }
 
@@ -166,16 +172,20 @@ static NSString*cellIdentifier = @"cellIdentifier";
         
         UITextField *textField = alertController.textFields.firstObject;
         
-        Search *search = [Search searchForQuery:textField.text inContext:self.managedObjectContext];
-        [self.managedObjectContext save:nil];
-        
-        [self.photos removeAllObjects];
-        [self.collectionView reloadData];
-        
-        [[GImageAPI sharedAPI]reset];
-        [self search:search];
-        
+        if (textField.text.length > 0) {
+            Search *search = [Search searchForQuery:textField.text inContext:self.managedObjectContext];
+            [self.managedObjectContext save:nil];
+            
+            [self.photos removeAllObjects];
+            [self.collectionView reloadData];
+            
+            [[GImageAPI sharedAPI]reset];
+            
+            
+            [self search:search];
+        }
     }];
+    
     [alertController addAction:search];
     
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){}];
@@ -219,7 +229,6 @@ static NSString*cellIdentifier = @"cellIdentifier";
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     float bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
     if (bottomEdge >= scrollView.contentSize.height) {
-        NSLog(@"Bottom");
         [self search:self.lastSearch];
     }
 }
